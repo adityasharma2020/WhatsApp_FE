@@ -5,13 +5,13 @@ import Register from './pages/Register';
 import { useSelector } from 'react-redux';
 
 function App() {
-	const { user } = useSelector((state) => ({ ...state }));
-	console.log(user);
+	const { userInfo } = useSelector((state) => ({ ...state }));
+	console.log(userInfo);
 	return (
 		<div className='dark'>
 			<Router>
 				<Routes>
-					<Route path='/' element={<Home></Home>}></Route>
+					<Route exact path='/' element={<Home></Home>}></Route>
 					<Route path='/login' element={<Login></Login>}></Route>
 					<Route path='/register' element={<Register></Register>}></Route>
 				</Routes>
