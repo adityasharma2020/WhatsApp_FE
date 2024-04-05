@@ -1,3 +1,16 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+/* 
+    If we wanted to add some custom classes (useful if we wnat to apply same styling multiple places) and 
+    it also make our jsx less cluttered.
+    so do  that we can use layers in tailwind
+*/
+
+@layer components {
+    .custom-h1{
+        @apply text-blue-800 bg-red-300
+    }
+}
