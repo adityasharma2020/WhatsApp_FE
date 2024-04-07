@@ -5,8 +5,7 @@ import Register from './pages/Register';
 import { useSelector } from 'react-redux';
 
 function App() {
-	const { userInfo } = useSelector((state) => ({ ...state }));
-	console.log(userInfo);
+
 	return (
 		<div className='dark'>
 			<Router>

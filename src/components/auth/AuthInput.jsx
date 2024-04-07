@@ -6,7 +6,7 @@ export default function AuthInput({
   error,
 }) {
   return (
-    <div className='mt-8 content-center dark:text-dark_text_1 space-y-1'>
+    <div className='mt-1 content-center dark:text-dark_text_1 space-y-1'>
       <label htmlFor={name} className='text-sm font-bold tracking-wide'>
         {placeholder}
       </label>

@@ -1,3 +1,7 @@
+/* 
+  React Hook Form focuses on managing  form state and inputs, Yup focuses on defining validation schemas and validating data against those schemas. 
+*/
+
 import * as Yup from 'yup'
 
 export const signUpSchema = Yup.object({

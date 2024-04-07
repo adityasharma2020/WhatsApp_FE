@@ -1,3 +1,11 @@
+/* 
+	extrareducers : It's particularly useful for handling actions dispatched by createAsyncThunk
+
+	/auth/register' : This in the createAsyncThunk funtion is not the actual url, insted it is a string identifier
+	for the action created by asyncthunk.this identifier is used internally by redux toolkit to dispacth
+	the appropriate redux actions based on the status of the request.
+*/
+
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 const AUTH_ENDPOINT = `${process.env.REACT_APP_API_ENDPOINT}/auth`;
@@ -15,6 +23,7 @@ const initialState = {
 	},
 };
 
+// function to call the backend  for registering user.
 export const registerUser = createAsyncThunk(
 	'/auth/register',
 	async (values, { rejectWithValue }) => {
@@ -25,8 +34,8 @@ export const registerUser = createAsyncThunk(
 
 			return data; // we return the response , that we got from server
 		} catch (error) {
-			//this error message we get from the backend
-			return rejectWithValue(error.response.data.error.message);
+			//the error message we get from the backend
+			return rejectWithValue(error?.response?.data?.error?.message);
 		}
 	}
 );
@@ -47,6 +56,9 @@ export const userSlice = createSlice({
 				token: '',
 			};
 		},
+		changeStatus: (state, action) => {
+			state.status = action.payload;
+		},
 	},
 	extraReducers(builder) {
 		builder
@@ -64,5 +76,5 @@ export const userSlice = createSlice({
 	},
 });
 
-export const { logout } = userSlice.actions;
+export const { logout, changeStatus } = userSlice.actions;
 export default userSlice.reducer;
