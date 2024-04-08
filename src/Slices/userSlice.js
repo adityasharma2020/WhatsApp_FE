@@ -11,7 +11,7 @@ import axios from 'axios';
 const AUTH_ENDPOINT = `${process.env.REACT_APP_API_ENDPOINT}/auth`;
 
 const initialState = {
-	status: 'loading',
+	status: '',
 	error: '',
 	user: {
 		id: '',
