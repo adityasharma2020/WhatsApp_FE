@@ -16,14 +16,13 @@ const cloud_name = process.env.REACT_APP_CLOUD_NAME;
 export default function RegisterForm() {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-	const { status, error, user } = useSelector((state) => state.user);
+	const { status, error } = useSelector((state) => state.user);
 	const [picture, setPicture] = useState(); // here we put the image that we upload to cloudinary
 	const [readablePicture, setReadablePicture] = useState(''); //this is the file that we read from user
-	console.log('status::', status);
+	
 	const {
 		handleSubmit,
 		register,
-		watch,
 		formState: { errors },
 	} = useForm({ resolver: yupResolver(signUpSchema) });
 
@@ -36,11 +35,11 @@ export default function RegisterForm() {
 				let res = await dispatch(
 					registerUser({ ...data, picture: pictureData.secure_url })
 				);
+
 				if (res?.payload?.user) {
 					navigate('/');
 				}
 			});
-			console.log(' final response:', res);
 		} else {
 			let res = await dispatch(registerUser({ ...data, picture: '' }));
 			if (res?.payload?.user) {
@@ -136,7 +135,7 @@ export default function RegisterForm() {
 						<span>have an account ?</span>
 						<Link
 							to='/login'
-							className='hover:underline  text-sm cursor-pointer transition ease-in duration-300'
+							className='underline  text-sm cursor-pointer transition ease-in duration-300'
 						>
 							Sign In
 						</Link>

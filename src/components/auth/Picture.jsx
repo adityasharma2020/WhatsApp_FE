@@ -58,7 +58,7 @@ export default function Picture({ readablePicture, setReadablePicture, setPictur
 				<div>
 					<img
 						src={readablePicture}
-						alt='picture'
+						alt='displayImage'
 						className='w-20 h-20 object-cover rounded-full'
 					/>
 					{/* change pic */}

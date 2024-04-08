@@ -32,6 +32,7 @@ export const registerUser = createAsyncThunk(
 				...values, // here we are spreading all the values  to pass all the properties of one object as separate properties in another object
 			});
 
+			console.log('response form server:', data);
 			return data; // we return the response , that we got from server
 		} catch (error) {
 			//the error message we get from the backend
@@ -39,6 +40,21 @@ export const registerUser = createAsyncThunk(
 		}
 	}
 );
+
+// function to call the backend  for login user.
+export const loginUser = createAsyncThunk('/auth/login', async (values, { rejectWithValue }) => {
+	try {
+		const { data } = await axios.post(`${AUTH_ENDPOINT}/login`, {
+			...values, // here we are spreading all the values  to pass all the properties of one object as separate properties in another object
+		});
+
+		console.log('response form server:', data);
+		return data; // we return the response , that we got from server
+	} catch (error) {
+		//the error message we get from the backend
+		return rejectWithValue(error?.response?.data?.error?.message);
+	}
+});
 
 export const userSlice = createSlice({
 	name: 'userSlice',
@@ -70,6 +86,17 @@ export const userSlice = createSlice({
 				state.user = action.payload.user;
 			})
 			.addCase(registerUser.rejected, (state, action) => {
+				state.status = 'failed';
+				state.error = action.payload;
+			})
+			.addCase(loginUser.pending, (state, action) => {
+				state.status = 'loading';
+			})
+			.addCase(loginUser.fulfilled, (state, action) => {
+				state.status = 'succeeded';
+				state.user = action.payload.user;
+			})
+			.addCase(loginUser.rejected, (state, action) => {
 				state.status = 'failed';
 				state.error = action.payload;
 			});
