@@ -3,7 +3,7 @@ import { ArrowIcon, CloseIcon, NotificationIcon } from '../../../svg';
 
 const Notifications = () => {
 	return (
-		<div className='h-[90px] dark:bg-dark_bg_3 flex items-center p-[13px]:'>
+		<div className='h-[90px] dark:bg-dark_bg_3 flex items-center p-[13px]'>
 			{/* container */}
 			<div className='w-full flex items-center justify-between'>
 				{/* left */}

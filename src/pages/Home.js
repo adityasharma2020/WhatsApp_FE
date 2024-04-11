@@ -16,10 +16,10 @@ export default function Home() {
 	}, [user]);
 
 	return (
-		<div className='min-h-screen dark:bg-dark_bg_1 flex items-center justify-center py-[1] overflow-hidden'>
+		<div className='h-screen dark:bg-dark_bg_1 flex items-center justify-start  overflow-hidden'>
 			{/* container */}
 
-			<div className='container flex'>
+			<div className='container '>
 				{/* sidebar */}
 				<Sidebar />
 			</div>
