@@ -1,3 +1,28 @@
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Sidebar } from '../components/sidebar';
+import { getConversations } from '../Slices/chatSlice';
+
 export default function Home() {
-  return <div> home</div>
+	const dispatch = useDispatch();
+	const { user } = useSelector((state) => state.user);
+
+	//get conversations
+	useEffect(() => {
+		console.log('user:', user);
+		if (user.token) {
+			dispatch(getConversations(user.token));
+		}
+	}, [user]);
+
+	return (
+		<div className='min-h-screen dark:bg-dark_bg_1 flex items-center justify-center py-[1] overflow-hidden'>
+			{/* container */}
+
+			<div className='container flex'>
+				{/* sidebar */}
+				<Sidebar />
+			</div>
+		</div>
+	);
 }

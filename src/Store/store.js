@@ -7,6 +7,7 @@ import createFilter from 'redux-persist-transform-filter';
 
 //slices
 import userSlice from '../Slices/userSlice';
+import chatSlice from '../Slices/chatSlice';
 
 //saveUserOnlyFilter
 const saveUserOnlyFilter = createFilter('user', ['user']); //By using this line, you are creating a filter transformation that only includes the user slice from your Redux store and all keys within that slice.
@@ -22,6 +23,7 @@ const persistConfig = {
 // combine all reducers in it and then we can export this only.
 const rootReducer = combineReducers({
 	user: userSlice,
+	chat: chatSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

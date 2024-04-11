@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
 /* 
     If we wanted to add some custom classes (useful if we wnat to apply same styling multiple places) and 
     it also make our jsx less cluttered.
@@ -10,7 +9,42 @@
 */
 
 @layer components {
-    .custom-h1{
-        @apply text-blue-800 bg-red-300
-    }
+	.container {
+		@apply w-screen h-full;
+	}
+	.btn {
+		@apply w-[40px] h-[40px] rounded-full flex items-center justify-center active:bg-dark_hover_1;
+	}
+	.p16 {
+		@apply px-[16px];
+	}
+
+	.textPrimary {
+		font-size: 16px;
+		line-height: 21px;
+		@apply text-dark_text_1;
+	}
+
+	.textSecondary {
+		font-size: 14px;
+		line-height: 19px;
+		@apply text-dark_text_2;
+	}
+
+	.input {
+		@apply w-full dark:bg-dark_bg_2 p-1.5 dark:text-dark_text_1 rounded-lg flex-1 outline-none;
+	}
+}
+
+/* animations */
+
+.rotateAnimation {
+	animation: rotate 0.3s forwards;
+}
+
+@keyframes rotate {
+	0% {
+		transform: rotate(-90deg);
+	}
+	
 }
