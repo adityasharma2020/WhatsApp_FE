@@ -19,7 +19,7 @@ export default function Home() {
 		<div className='h-screen dark:bg-dark_bg_1 flex items-center justify-start  overflow-hidden'>
 			{/* container */}
 
-			<div className='container '>
+			<div className='container h-screen'>
 				{/* sidebar */}
 				<Sidebar />
 			</div>

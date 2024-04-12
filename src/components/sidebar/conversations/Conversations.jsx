@@ -4,9 +4,9 @@ import Conversation from './Conversation';
 
 const Conversations = () => {
 	const { conversations } = useSelector((state) => state.chat);
-	console.log(conversations);
+	// console.log(conversations);
 	return (
-		<div className='convos '>
+		<div className='convos scrollbar '>
 			{conversations.length
 				? conversations.map((convo) => {
 						return <Conversation convo={convo} key={convo._id} />;

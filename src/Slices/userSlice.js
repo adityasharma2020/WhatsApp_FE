@@ -32,7 +32,7 @@ export const registerUser = createAsyncThunk(
 				...values, // here we are spreading all the values  to pass all the properties of one object as separate properties in another object
 			});
 
-			console.log('response form server:', data);
+			// console.log('response form server:', data);
 			return data; // we return the response , that we got from server
 		} catch (error) {
 			//the error message we get from the backend
@@ -48,7 +48,7 @@ export const loginUser = createAsyncThunk('/auth/login', async (values, { reject
 			...values, // here we are spreading all the values  to pass all the properties of one object as separate properties in another object
 		});
 
-		console.log('response form server:', data);
+		// console.log('response form server:', data);
 		return data; // we return the response , that we got from server
 	} catch (error) {
 		//the error message we get from the backend

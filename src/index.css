@@ -36,8 +36,9 @@
 	}
 
 	.convos {
-		height: calc(100vh - 43vh);
+		height: calc(100vh - 180px);
 		overflow-y: auto;
+		overflow-x: hidden;
 	}
 }
 

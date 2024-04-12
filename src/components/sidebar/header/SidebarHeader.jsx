@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { ChatIcon, CommunityIcon, DotsIcon, StoryIcon } from '../../../svg/index.js';
 const SidebarHeader = () => {
 	const { user } = useSelector((state) => state.user);
-	console.log('user:', user);
+	// console.log('user:', user);
 	return (
 		<div className='h-[50px] dark:bg-dark_bg_2 flex items-center p16 '>
 			<div className='w-full flex  items-center justify-between'>
