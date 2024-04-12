@@ -1,7 +1,10 @@
 import React from 'react';
 import { ArrowIcon, CloseIcon, NotificationIcon } from '../../../svg';
 
-const Notifications = () => {
+const Notifications = ({setNotificationInfo}) => {
+	const handleClose = () => {
+		setNotificationInfo(false);
+	};
 	return (
 		<div className='h-[90px] dark:bg-dark_bg_3 flex items-center p-[13px]'>
 			{/* container */}
@@ -20,7 +23,7 @@ const Notifications = () => {
 					</div>
 				</div>
 				{/* right */}
-				<div className='cursor-pointer'>
+				<div className='cursor-pointer' onClick={handleClose}>
 					<CloseIcon className='dark:fill-dark_svg_2 mr-0.5' />
 				</div>
 			</div>

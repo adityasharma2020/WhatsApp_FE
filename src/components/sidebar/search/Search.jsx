@@ -5,13 +5,22 @@ import { useSelector } from 'react-redux';
 
 const Search = ({ searchLength, setSearchResults }) => {
 	const [show, setShow] = useState(false);
+	const [inputValue, setInputValue] = useState('');
 	const { user } = useSelector((state) => state.user);
 	const { token } = user;
 
-	const handleSearch = async (e) => {
-		console.log(e.target.value);
-		if (e.target.value.length > 2 && e.key === 'Enter') {
-			console.log(e.target.value);
+	const debounce = (func, delay) => {
+		let timer;
+		return (...args) => {
+			clearTimeout(timer);
+			timer = setTimeout(() => func(...args), delay);
+		};
+	};
+
+	const handleSearch = debounce(async (e) => {
+		console.log('asdfasdf', e.target.value.length);
+		if (e.target.value.length > 2) {
+			console.log('asdfasdf', e.target.value);
 			try {
 				const { data } = await axios.get(
 					`${process.env.REACT_APP_API_ENDPOINT}/user?search=${e.target.value}`,
@@ -28,7 +37,18 @@ const Search = ({ searchLength, setSearchResults }) => {
 		} else {
 			setSearchResults([]);
 		}
+	}, 300);
+
+	const clearSearch = () => {
+		setSearchResults([]);
+		setInputValue('');
 	};
+
+	const handleInputChange = async (e) => {
+		setInputValue(e.target.value);
+		await handleSearch(e);
+	};
+
 	return (
 		<div className='h-[49px] py-1.5'>
 			{/* container */}
@@ -37,7 +57,10 @@ const Search = ({ searchLength, setSearchResults }) => {
 				<div className='flex items-center justify-center gap-x-2'>
 					<div className='w-full flex dark:bg-dark_bg_2 rounded-lg'>
 						{show || searchLength > 0 ? (
-							<span className='w-8 flex items-center justify-center rotateAnimation'>
+							<span
+								className='w-8 flex items-center justify-center rotateAnimation cursor-pointer'
+								onClick={clearSearch}
+							>
 								<ReturnIcon className='fill-green_1 w-5' />
 							</span>
 						) : (
@@ -50,9 +73,11 @@ const Search = ({ searchLength, setSearchResults }) => {
 							type='text'
 							placeholder='search or start a new chat'
 							className='input'
+							value={inputValue}
+							onChange={handleInputChange}
 							onFocus={() => setShow(true)}
 							onBlur={() => searchLength === 0 && setShow(false)}
-							onKeyDown={(e) => handleSearch(e)}
+							// onKeyDown={(e) => handleSearch(e)}
 						/>
 					</div>
 

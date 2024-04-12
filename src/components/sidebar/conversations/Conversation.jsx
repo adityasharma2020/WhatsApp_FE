@@ -3,7 +3,7 @@ import { dateHandler } from '../../../utils/date';
 
 const Conversation = ({ convo }) => {
 	return (
-		<li className='list-none h-[720px] w-full dark:bg-dark_bg_1 hover:dark:bg-dark_bg_2 cursor-pointer dark:text-dark_text_1 px-[10px]'>
+		<li className='list-none h-[72px] w-full dark:bg-dark_bg_1 hover:dark:bg-dark_bg_2 cursor-pointer dark:text-dark_text_1 px-[10px]'>
 			{/* container */}
 			<div className='relative w-full flex items-center justify-between py-[10px]'>
 				{/* left */}

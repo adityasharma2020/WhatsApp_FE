@@ -2,9 +2,8 @@ import React from 'react';
 import Contact from './Contact';
 
 const SearchResults = ({ searchResults }) => {
-	
 	return (
-		<div className='w-full convos scrollbar'>
+		<div className='w-full'>
 			<div>
 				{/* heading */}
 				<div className='flex flex-col px-8 pt-8'>
@@ -14,10 +13,13 @@ const SearchResults = ({ searchResults }) => {
 
 				{/* results */}
 				<ul>
-					{searchResults &&
+					{searchResults.length > 0 ? (
 						searchResults.map((user) => {
 							return <Contact contact={user} key={user._id} />;
-						})}
+						})
+					) : (
+						<>NOTHING FOIND</>
+					)}
 				</ul>
 			</div>
 		</div>

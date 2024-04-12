@@ -1,2 +1,4 @@
 import SidebarHeader from './SidebarHeader';
-export {SidebarHeader}
+import Menu from './Menu';
+
+export {SidebarHeader,Menu}
