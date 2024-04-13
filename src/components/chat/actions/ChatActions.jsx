@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import EmojiPicker from './EmojiPicker.jsx';
+import React, { useRef, useState } from 'react';
+import EmojiPickerApp from './EmojiPicker.jsx';
 import Attachments from './Attachments.jsx';
 import Input from './Input.jsx';
 import SendIcon from '../../../svg/Send.js';
@@ -8,11 +8,13 @@ import { sendMessage } from '../../../Slices/chatSlice.js';
 import { ClipLoader } from 'react-spinners';
 
 const ChatActions = () => {
+	const dispatch = useDispatch();
 	const [message, setMessage] = useState('');
+	console.log('message', message);
 	const { activeConversation, status } = useSelector((state) => state.chat);
 	const { user } = useSelector((state) => state.user);
 	const { token } = user;
-	const dispatch = useDispatch();
+	const textRef = useRef();
 	const values = {
 		message,
 		convo_id: activeConversation._id,
@@ -34,12 +36,12 @@ const ChatActions = () => {
 			<div className='w-full flex items-center gap-x-2'>
 				{/* emojis and attachments */}
 				<ul className='flex gap-x-2'>
-					<EmojiPicker />
+					<EmojiPickerApp textRef={textRef} message={message} setMessage={setMessage} />
 					<Attachments />
 				</ul>
 
 				{/* input */}
-				<Input message={message} setMessage={setMessage} />
+				<Input message={message} setMessage={setMessage} textRef={textRef} />
 
 				{/* send Button */}
 				<button type='submit' className='btn'>
