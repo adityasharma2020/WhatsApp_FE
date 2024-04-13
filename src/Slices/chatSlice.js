@@ -72,6 +72,32 @@ export const getConversationMessages = createAsyncThunk(
 	}
 );
 
+export const sendMessage = createAsyncThunk(
+	'/messages/send',
+	async (values, { rejectWithValue }) => {
+		const { token, message, convo_id, files } = values;
+		try {
+			const { data } = await axios.post(
+				`${MESSAGE_ENDPOINT}`,
+				{
+					message,
+					convo_id,
+					files,
+				},
+				{
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				}
+			);
+
+			return data;
+		} catch (error) {
+			return rejectWithValue(error?.data?.error?.message);
+		}
+	}
+);
+
 export const chatSlice = createSlice({
 	name: 'chat',
 	initialState,
@@ -109,6 +135,17 @@ export const chatSlice = createSlice({
 				state.messages = action.payload;
 			})
 			.addCase(getConversationMessages.rejected, (state, action) => {
+				state.status = 'failed';
+				state.error = action.payload;
+			})
+			.addCase(sendMessage.pending, (state, action) => {
+				state.status = 'loading';
+			})
+			.addCase(sendMessage.fulfilled, (state, action) => {
+				state.status = 'succeeded';
+				state.messages = [...state.messages, action.payload];
+			})
+			.addCase(sendMessage.rejected, (state, action) => {
 				state.status = 'failed';
 				state.error = action.payload;
 			});
