@@ -11,8 +11,8 @@ const Contact = ({ contact }) => {
 		receiver_id: contact._id,
 		token,
 	};
-	const openConversation = () => {
-		dispath(open_create_conversation(values));
+	const openConversation =async () => {
+		await dispath(open_create_conversation(values));
 	};
 	return (
 		<li

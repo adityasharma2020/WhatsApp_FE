@@ -144,6 +144,21 @@ export const chatSlice = createSlice({
 			.addCase(sendMessage.fulfilled, (state, action) => {
 				state.status = 'succeeded';
 				state.messages = [...state.messages, action.payload];
+
+				// after we send the message we want to update the latest message and also we wnat 
+				// to shift that conversation to the top.
+				let conversation = {
+					...action.payload.conversation,
+					latestMessage: action.payload,
+				};
+
+				//we first make a shallow copy of all the conversations present in our state
+				// and then we filter out the new converstion in which the message is added
+				// and then we add that newly added messages conversation at the top using unshift.
+				let newConvos = [...state.conversations].filter((c) => c._id !== conversation._id);
+				newConvos.unshift(conversation);
+
+				state.conversations = newConvos;
 			})
 			.addCase(sendMessage.rejected, (state, action) => {
 				state.status = 'failed';
