@@ -7,7 +7,7 @@ const Conversations = () => {
 	// console.log(conversations);
 	return (
 		<div className='convos scrollbar '>
-			{conversations.length
+			{conversations?.length
 				? conversations.map((convo) => {
 						return <Conversation convo={convo} key={convo._id} />;
 				  })

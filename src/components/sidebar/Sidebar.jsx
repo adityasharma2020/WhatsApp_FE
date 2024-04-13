@@ -3,7 +3,7 @@ import SidebarHeader from './header/SidebarHeader';
 import { Notifications } from './notifications';
 import { Search, SearchResults } from './search';
 import { Conversations } from './conversations';
-import { Loader } from '../../svg';
+
 
 const Sidebar = () => {
 	const [searchResults, setSearchResults] = useState([]);

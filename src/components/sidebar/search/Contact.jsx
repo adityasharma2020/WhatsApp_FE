@@ -1,8 +1,24 @@
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { open_create_conversation } from '../../../Slices/chatSlice';
 
 const Contact = ({ contact }) => {
+	const dispath = useDispatch();
+	const { user } = useSelector((state) => state?.user);
+	const { token } = user;
+	// console.log('asdfasdf', convo);
+	const values = {
+		receiver_id: contact._id,
+		token,
+	};
+	const openConversation = () => {
+		dispath(open_create_conversation(values));
+	};
 	return (
-		<li className='list-none h-[72px] hover:dark:bg-dark_bg_2 cursor-pointer dark:text-dark_text_1 px-[10px]'>
+		<li
+			onClick={() => openConversation()}
+			className='list-none h-[72px] hover:dark:bg-dark_bg_2 cursor-pointer dark:text-dark_text_1 px-[10px]'
+		>
 			{/* container */}
 			<div className='flex items-center gap-x-3 py-[10px]'>
 				{/* contact info */}

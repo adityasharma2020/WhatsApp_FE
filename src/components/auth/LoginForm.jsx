@@ -71,7 +71,7 @@ export default function RegisterForm() {
 						hover:bg-green_2 shadow-lg cursor-pointer transition ease-in duration-300'
 						type='submit'
 					>
-						{status === 'loading' ? <PulseLoader color='#fff' size={10} /> : 'Sign Up'}
+						{status === 'loading' ? <PulseLoader color='#fff' size={10} /> : 'Sign In'}
 					</button>
 
 					{/* sign in link */}
