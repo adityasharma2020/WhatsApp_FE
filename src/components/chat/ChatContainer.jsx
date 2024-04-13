@@ -19,6 +19,7 @@ const ChatContainer = () => {
 		if (activeConversation._id) {
 			dispatch(getConversationMessages(values));
 		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [activeConversation?._id]);
 	console.log('messages', messages);
 	return (
@@ -27,8 +28,11 @@ const ChatContainer = () => {
 			<div className=''>
 				{/* chat header */}
 				<ChatHeader />
+
 				{/* Chat messages */}
 				<ChatMessages />
+
+				{/* chat actions */}
 			</div>
 		</div>
 	);
