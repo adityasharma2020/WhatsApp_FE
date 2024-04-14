@@ -1,5 +1,6 @@
 import React from 'react';
 import { AttachmentIcon } from '../../../../svg';
+
 import Menu from './Menu';
 
 const Attachments = ({ showAttachments, setShowAttachments, setShowPicker }) => {
