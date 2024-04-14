@@ -10,7 +10,7 @@ import { ClipLoader } from 'react-spinners';
 const ChatActions = () => {
 	const dispatch = useDispatch();
 	const [message, setMessage] = useState('');
-	console.log('message', message);
+
 	const { activeConversation, status } = useSelector((state) => state.chat);
 	const { user } = useSelector((state) => state.user);
 	const { token } = user;

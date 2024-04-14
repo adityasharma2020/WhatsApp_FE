@@ -22,7 +22,7 @@ const ChatContainer = () => {
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [activeConversation?._id]);
-	console.log('messages', messages);
+	
 	return (
 		<div className='relative w-full h-full border-l dark:border-l-dark_border_2 select-none overflow-hidden'>
 			{/* container */}
