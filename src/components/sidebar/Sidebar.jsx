@@ -11,7 +11,7 @@ const Sidebar = () => {
 	// const [showConversation, setShowConversation] = useState(true);
 
 	return (
-		<div className='w-[40%] h-full select-none flex flex-col'>
+		<div className='max-w-[30%] flex30 h-full select-none flex flex-col'>
 			{/* sidebar header */}
 			<SidebarHeader />
 

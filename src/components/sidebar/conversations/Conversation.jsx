@@ -8,6 +8,7 @@ import { capitalize } from '../../../utils/string';
 const Conversation = ({ convo }) => {
 	const dispath = useDispatch();
 	const { user } = useSelector((state) => state?.user);
+	const { activeConversation } = useSelector((state) => state?.chat);
 	const { token } = user;
 	// console.log('asdfasdf', convo);
 	const values = {
@@ -18,13 +19,14 @@ const Conversation = ({ convo }) => {
 		dispath(open_create_conversation(values));
 	};
 
-	console.log('message:', convo?.latestMessage?.message);
-	console.log('message length:', convo?.latestMessage?.message.length);
-	console.log('message length:', [...convo?.latestMessage?.message].length);
 	return (
 		<li
 			onClick={() => openConversation()}
-			className='list-none h-[72px] w-full dark:bg-dark_bg_1 hover:dark:bg-dark_bg_2 cursor-pointer dark:text-dark_text_1 px-[10px]'
+			className={`list-none h-[71px] w-full dark:bg-dark_bg_1 hover:${
+				convo?._id !== activeConversation?._id ? 'dark:bg-dark_bg_2' : ''
+			} cursor-pointer dark:text-dark_text_1 px-[10px] ${
+				convo?._id === activeConversation?._id ? 'dark:bg-dark_hover_1' : ''
+			}`}
 		>
 			{/* container */}
 			<div className='relative w-full flex items-center justify-between py-[10px]'>

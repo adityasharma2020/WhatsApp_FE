@@ -10,7 +10,12 @@
 
 @layer components {
 	.container {
-		@apply w-screen h-full;
+		width: calc(100%);
+		max-width: 1700px;
+	}
+
+	.flex30{
+		flex: 0 0 30%;
 	}
 	.btn {
 		@apply w-[40px] h-[40px] rounded-full flex items-center justify-center active:bg-dark_hover_1;

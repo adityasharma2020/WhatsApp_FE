@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import image from '../../../bg_image.jpg';
+import image from '../../../assets/bg_image.jpg';
 import { useSelector } from 'react-redux';
 import Message from './Message';
 
