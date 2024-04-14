@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import image from '../../../bg_image.jpg';
 import { useSelector } from 'react-redux';
 import Message from './Message';
@@ -6,6 +6,12 @@ import Message from './Message';
 const ChatMessages = () => {
 	const { messages } = useSelector((state) => state.chat);
 	const { user } = useSelector((state) => state.user);
+	const endRef = useRef();
+
+	useEffect(() => {
+		// when a new message added we make scroll to the end div that we added in last.
+		endRef.current.scrollIntoView({ behaviour: 'smooth' });
+	}, [messages]);
 	return (
 		<div
 			className='mb-[60px] bg-cover bg-no-repeat'
@@ -24,6 +30,9 @@ const ChatMessages = () => {
 							/>
 						);
 					})}
+
+				{/* emty div for scrolling down */}
+				<div ref={endRef}></div>
 			</div>
 		</div>
 	);

@@ -17,6 +17,10 @@ const Conversation = ({ convo }) => {
 	const openConversation = () => {
 		dispath(open_create_conversation(values));
 	};
+
+	console.log('message:', convo?.latestMessage?.message);
+	console.log('message length:', convo?.latestMessage?.message.length);
+	console.log('message length:', [...convo?.latestMessage?.message].length);
 	return (
 		<li
 			onClick={() => openConversation()}
@@ -25,7 +29,7 @@ const Conversation = ({ convo }) => {
 			{/* container */}
 			<div className='relative w-full flex items-center justify-between py-[10px]'>
 				{/* left */}
-				<div className='flex items-center gap-x-3'>
+				<div className='flex items-center gap-x-4'>
 					{/* conversation user picture */}
 					<div className='relative min-w-[50px] max-w-[50px] h-[50px] rounded-full overflow-hidden'>
 						<img
@@ -46,7 +50,7 @@ const Conversation = ({ convo }) => {
 							<div className='flex  items-center gap-x-1 dark:text-dark_text_2'>
 								<div className='flex-1 text-xs items-center gap-x-1 dark:text-dark_text_2'>
 									<p>
-										{convo?.latestMessage?.message.length > 20
+										{[...convo?.latestMessage?.message].length > 15 // we are spreading the message into an array because , emojis  make length function diffrently
 											? `${convo?.latestMessage?.message.substring(0, 25)}..`
 											: convo?.latestMessage?.message}
 									</p>
