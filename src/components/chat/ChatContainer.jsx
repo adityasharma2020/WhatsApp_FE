@@ -3,10 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getConversationMessages } from '../../Slices/chatSlice.js';
 import ChatHeader from './header/ChatHeader.jsx';
 import ChatMessages from './messages/ChatMessages.jsx';
-import {ChatActions} from './actions/index.js';
+import { ChatActions } from './actions/index.js';
 
 const ChatContainer = () => {
-	const { activeConversation, messages } = useSelector((state) => state.chat);
+	const { activeConversation } = useSelector((state) => state.chat);
 	const { user } = useSelector((state) => state.user);
 	const { token } = user;
 
@@ -22,7 +22,7 @@ const ChatContainer = () => {
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [activeConversation?._id]);
-	
+
 	return (
 		<div className='relative w-full h-full border-l dark:border-l-dark_border_2 select-none overflow-hidden'>
 			{/* container */}

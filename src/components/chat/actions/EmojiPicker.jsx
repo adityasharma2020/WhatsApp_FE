@@ -2,14 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { CloseIcon, EmojiIcon } from '../../../svg';
 import EmojiPicker from 'emoji-picker-react';
 
-const EmojiPickerApp = ({ textRef, message, setMessage }) => {
-	const [showPicker, setShowPicker] = useState(false);
-	
-
-    const [cursorPosition, setCursorPosition] = useState();
-    useEffect(() => {
-      textRef.current.selectionEnd = cursorPosition;
-    }, [cursorPosition]);
+const EmojiPickerApp = ({ textRef, setShowAttachments, setMessage, showPicker, setShowPicker }) => {
+	const [cursorPosition, setCursorPosition] = useState();
+	useEffect(() => {
+		textRef.current.selectionEnd = cursorPosition;
+	}, [cursorPosition,textRef]);
 
 	useEffect(() => {
 		// Calculate the new message whenever message or cursorPosition changes
@@ -27,7 +24,6 @@ const EmojiPickerApp = ({ textRef, message, setMessage }) => {
 		setCursorPosition(start.length);
 	}, [textRef, setMessage]);
 
-    
 	const handleEmoji = (emojiData, e) => {
 		const { emoji } = emojiData;
 
@@ -54,7 +50,14 @@ const EmojiPickerApp = ({ textRef, message, setMessage }) => {
 
 	return (
 		<li>
-			<button onClick={() => setShowPicker((prev) => !prev)} className='btn' type='button'>
+			<button
+				onClick={() => {
+					setShowAttachments(false);
+					setShowPicker((prev) => !prev);
+				}}
+				className='btn'
+				type='button'
+			>
 				{showPicker ? (
 					<CloseIcon className='dark:fill-dark_svg_1' />
 				) : (
