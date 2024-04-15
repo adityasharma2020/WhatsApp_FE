@@ -56,6 +56,20 @@ export const loginUser = createAsyncThunk('/auth/login', async (values, { reject
 	}
 });
 
+// function for refreshing the access token
+export const refreshAccessToken = createAsyncThunk(
+	'/auth/refreshToken',
+	async (_, { rejectWithValue }) => {
+		try {
+			const { data } = await axios.post(`${AUTH_ENDPOINT}/refreshtoken`);
+			console.log('new refresh token get:::', data);
+			return data;
+		} catch (error) {
+			return rejectWithValue(error?.response?.data?.error?.message);
+		}
+	}
+);
+
 export const userSlice = createSlice({
 	name: 'userSlice',
 	initialState: initialState,
@@ -99,6 +113,9 @@ export const userSlice = createSlice({
 			.addCase(loginUser.rejected, (state, action) => {
 				state.status = 'failed';
 				state.error = action.payload;
+			})
+			.addCase(refreshAccessToken.fulfilled, (state, action) => {
+				state.user = action.payload.user;
 			});
 	},
 });
