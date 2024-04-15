@@ -29,7 +29,7 @@ export default function RegisterForm() {
 	};
 
 	return (
-		<div className='min-h-screen w-full flex my-10 mx-5 items-center justify-center overflow-hidden'>
+		<div className='h-full  w-full flex my-10 mx-5 items-center justify-center overflow-hidden'>
 			{/* container */}
 			<div className=' w-full max-w-md y-8 px-10 py-5 dark:bg-dark_bg_2 rounded-xl'>
 				{/* heading */}

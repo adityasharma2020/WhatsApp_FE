@@ -51,6 +51,7 @@
 		overflow-y: auto;
 		overflow-x: hidden;
 	}
+	
 }
 
 /* animations */
@@ -82,6 +83,37 @@
 	border-radius: 5px;
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+.bar {
+	bar-width: thin; /* For Firefox */
+	bar-color: red green; /* For Firefox */
+  }
+  
+  .bar::-webkit-bar {
+	width: 12px; /* For Chrome, Safari, and Opera */
+  }
+  
+  .bar::-webkit-bar-track {
+	background: #f1f1f1; /* Color of the track */
+  }
+  
+  .bar::-webkit-bar-thumb {
+	background-color: #888; /* Color of the bar */
+	border-radius: 20px; /* Roundness of the bar */
+	border: 3px solid #555; /* Border style */
+  }
 /*---Emoji picker plugin custom css-----*/
 .epr-dark-theme {
 	background: #202c33 !important;
