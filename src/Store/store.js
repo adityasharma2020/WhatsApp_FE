@@ -8,7 +8,7 @@ import createFilter from 'redux-persist-transform-filter';
 //slices
 import userSlice from '../Slices/userSlice';
 import chatSlice from '../Slices/chatSlice';
-import tokenInterceptor from '../utils/tokenInterceptor';
+// import tokenInterceptor from '../utils/tokenInterceptor';
 
 //saveUserOnlyFilter
 const saveUserOnlyFilter = createFilter('user', ['user']); //By using this line, you are creating a filter transformation that only includes the user slice from your Redux store and all keys within that slice.
@@ -31,7 +31,7 @@ const rootReducer = combineReducers({
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 const middleware = [
-	tokenInterceptor, // Custom middleware for token refresh
+	// tokenInterceptor, // Custom middleware for token refresh
 	...getDefaultMiddleware({
 		serializableCheck: false, // Disable serializability checks
 	}),
