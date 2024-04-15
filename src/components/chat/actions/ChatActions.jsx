@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import EmojiPickerApp from './EmojiPicker.jsx';
 import { Attachments } from './attachments';
 import Input from './Input.jsx';
@@ -6,6 +6,7 @@ import SendIcon from '../../../svg/Send.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { sendMessage } from '../../../Slices/chatSlice.js';
 import { ClipLoader } from 'react-spinners';
+import SocketContext from '../../../context/SocketContext.jsx';
 
 const ChatActions = () => {
 	const dispatch = useDispatch();
@@ -23,12 +24,15 @@ const ChatActions = () => {
 		token,
 	};
 
+	const socket = useContext(SocketContext);
+
 	const SendMessageHander = async (e) => {
 		setLoading(true);
 		e.preventDefault();
 		setShowAttachments(false);
 		setShowPicker(false);
-		await dispatch(sendMessage(values));
+		let newMsg = await dispatch(sendMessage(values));
+		socket.emit('send message', newMsg.payload);
 		setMessage('');
 		setLoading(false);
 	};

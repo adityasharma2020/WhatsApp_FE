@@ -1,18 +1,20 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { open_create_conversation } from '../../../Slices/chatSlice';
+import SocketContext from '../../../context/SocketContext';
 
 const Contact = ({ contact }) => {
 	const dispath = useDispatch();
 	const { user } = useSelector((state) => state?.user);
 	const { token } = user;
-	// console.log('asdfasdf', convo);
+	const socket = useContext(SocketContext);
 	const values = {
 		receiver_id: contact._id,
 		token,
 	};
-	const openConversation =async () => {
-		await dispath(open_create_conversation(values));
+	const openConversation = async () => {
+		let newConvo = await dispath(open_create_conversation(values));
+		socket.emit('join conversation', newConvo?.payload?._id);
 	};
 	return (
 		<li

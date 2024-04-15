@@ -1,22 +1,28 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { dateHandler } from '../../../utils/date';
 import { open_create_conversation } from '../../../Slices/chatSlice';
-import { getConversationId } from '../../../utils/chat';
+import {
+	getConversationId,
+	getConversationName,
+	getConversationPicture,
+} from '../../../utils/chat';
 import { capitalize } from '../../../utils/string';
+import SocketContext from '../../../context/SocketContext';
 
 const Conversation = ({ convo }) => {
 	const dispath = useDispatch();
 	const { user } = useSelector((state) => state?.user);
 	const { activeConversation } = useSelector((state) => state?.chat);
 	const { token } = user;
-	// console.log('asdfasdf', convo);
+	const socket = useContext(SocketContext);
 	const values = {
 		receiver_id: getConversationId(user, convo?.users),
 		token,
 	};
-	const openConversation = () => {
-		dispath(open_create_conversation(values));
+	const openConversation = async () => {
+		let newConvo = await dispath(open_create_conversation(values));
+		socket.emit('join conversation', newConvo?.payload?._id);
 	};
 
 	return (
@@ -35,8 +41,8 @@ const Conversation = ({ convo }) => {
 					{/* conversation user picture */}
 					<div className='relative min-w-[50px] max-w-[50px] h-[50px] rounded-full overflow-hidden'>
 						<img
-							src={convo?.picture}
-							alt={convo?.name}
+							src={getConversationPicture(user, convo.users)}
+							alt='conversationPic'
 							className='w-full h-full object-cover'
 						/>
 					</div>
@@ -45,7 +51,7 @@ const Conversation = ({ convo }) => {
 					<div className='w-full flex flex-col '>
 						{/* conversation name */}
 						<h1 className='font-bold flex items-center gap-x-2'>
-							{capitalize(convo?.name)}
+							{capitalize(getConversationName(user, convo.users))}
 						</h1>
 						{/* conversation message */}
 						<div>

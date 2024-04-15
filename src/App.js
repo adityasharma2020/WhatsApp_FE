@@ -5,11 +5,14 @@ import Register from './pages/Register';
 import { useSelector } from 'react-redux';
 import { io } from 'socket.io-client';
 import { useEffect } from 'react';
-import { jwtDecode } from "jwt-decode";
+import { jwtDecode } from 'jwt-decode';
 import SocketContext from './context/SocketContext';
-
+import Cookies from 'js-cookie';
 // socket io connection
 const socket = io(process.env.REACT_APP_SERVER_ENDPOINT);
+
+const refreshToken = Cookies.get('refreshToken');
+console.log('refresh token :', refreshToken);
 
 function App() {
 	const { user } = useSelector((state) => state.user);
@@ -18,8 +21,6 @@ function App() {
 	const isTokenExpired = (token) => {
 		if (!token) return true; // Token doesn't exist
 		const decodedToken = jwtDecode(token);
-		console.log("sdf",decodedToken.exp * 1000 );
-		console.log("sdf",decodedToken.exp * 1000 < Date.now());
 		if (decodedToken.exp * 1000 < Date.now()) return true; // Token is expired
 		return false; // Token is not expired
 	};

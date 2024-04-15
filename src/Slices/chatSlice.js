@@ -101,7 +101,30 @@ export const sendMessage = createAsyncThunk(
 export const chatSlice = createSlice({
 	name: 'chat',
 	initialState,
-	reducers: {},
+	reducers: {
+		updateMessagesAndConversations: (state, action) => {
+			// Update message
+
+			let convo = state.activeConversation;
+			// we are checkinng that the active coversation is equal to the conversaation
+			// the message belongs then we reflect it on the screen only.
+			if (convo._id === action.payload.conversation._id) {
+				state.messages = [...state.messages, action.payload];
+			}
+
+			// update conversations
+			let conversation = {
+				...action.payload.conversation,
+				latestMessage: action.payload,
+			};
+
+			//removing current conversation in which  new message came
+			let newConvos = [...state.conversations].filter((c) => c._id !== conversation._id);
+			//and now we are adding that conversation at top
+			newConvos.unshift(conversation);
+			state.conversations = newConvos;
+		},
+	},
 
 	extraReducers(builder) {
 		builder
@@ -145,7 +168,7 @@ export const chatSlice = createSlice({
 				state.status = 'succeeded';
 				state.messages = [...state.messages, action.payload];
 
-				// after we send the message we want to update the latest message and also we wnat 
+				// after we send the message we want to update the latest message and also we wnat
 				// to shift that conversation to the top.
 				let conversation = {
 					...action.payload.conversation,
@@ -167,6 +190,6 @@ export const chatSlice = createSlice({
 	},
 });
 
-// export const {} = chatSlice.actions;
+export const { updateMessagesAndConversations } = chatSlice.actions;
 
 export default chatSlice.reducer;

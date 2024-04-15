@@ -10,7 +10,7 @@ const Conversations = () => {
 			<ul>
 				{conversations &&
 					conversations
-						.filter((c) => c.latestMessage)
+						.filter((c) => c.latestMessage) //filtering converstions which have latest message in it.
 						.map((convo) => {
 							return <Conversation convo={convo} key={convo._id} />;
 						})}
