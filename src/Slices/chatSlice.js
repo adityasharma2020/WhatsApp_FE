@@ -75,13 +75,14 @@ export const getConversationMessages = createAsyncThunk(
 export const sendMessage = createAsyncThunk(
 	'/messages/send',
 	async (values, { rejectWithValue }) => {
-		const { token, message, convo_id, files } = values;
+		const { token,receiver_id, message, convo_id, files } = values;
 		try {
 			const { data } = await axios.post(
 				`${MESSAGE_ENDPOINT}`,
 				{
 					message,
 					convo_id,
+					receiver_id,
 					files,
 				},
 				{

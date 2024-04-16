@@ -9,6 +9,7 @@ import {
 } from '../../../utils/chat';
 import { capitalize } from '../../../utils/string';
 import SocketContext from '../../../context/SocketContext';
+import MessageStatus from '../../chat/messages/MessageStatus';
 
 const Conversation = ({ convo }) => {
 	const dispath = useDispatch();
@@ -56,7 +57,13 @@ const Conversation = ({ convo }) => {
 						{/* conversation message */}
 						<div>
 							<div className='flex  items-center gap-x-1 dark:text-dark_text_2'>
-								<div className='flex-1 text-xs items-center gap-x-1 dark:text-dark_text_2'>
+								<div className='flex text-xs items-center gap-x-1 dark:text-dark_text_2'>
+									{convo.latestMessage.sender._id === user._id && (
+										<MessageStatus
+											messageStatus={convo.latestMessage.messageStatus}
+										/>
+									)}
+
 									<p>
 										{[...convo?.latestMessage?.message].length > 15 // we are spreading the message into an array because , emojis  make length function diffrently
 											? `${convo?.latestMessage?.message.substring(0, 25)}..`

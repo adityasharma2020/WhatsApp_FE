@@ -2,7 +2,12 @@ import moment from 'moment';
 import React from 'react';
 import TriangleIcon from '../../../svg/triangle';
 
+import { useSelector } from 'react-redux';
+import MessageStatus from './MessageStatus';
+
 const Message = ({ message, me }) => {
+	const { user } = useSelector((state) => state.user);
+	console.log('sadfsdf', message.messageStatus);
 	return (
 		<div className={`w-full flex mt-2 space-x-3 max-w-xs ${me ? 'ml-auto justify-end' : ''}`}>
 			{/* message container */}
@@ -15,10 +20,16 @@ const Message = ({ message, me }) => {
 					{/* message */}
 					<p className='float-left h-full text-sm pb-5 pr-8'>{message.message}</p>
 
-					{/* message date */}
-					<span className=' absolute right-1.5 bottom-1.5 float-right text-xs pt-6 text-dark_text_5 leading-none'>
-						{moment(message.createdAt).format('HH:mm')}
-					</span>
+					<div className='flex'>
+						{/* message date */}
+						<span className=' absolute right-1.5 bottom-1.5 float-right text-xs pt-6 text-dark_text_5 leading-none'>
+							{moment(message.createdAt).format('HH:mm')}
+						</span>
+
+						{message.sender._id === user._id && (
+							<MessageStatus messageStatus={message.messageStatus} />
+						)}
+					</div>
 
 					{/* triangle */}
 					{!me ? (

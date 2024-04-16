@@ -7,6 +7,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { sendMessage } from '../../../Slices/chatSlice.js';
 import { ClipLoader } from 'react-spinners';
 import SocketContext from '../../../context/SocketContext.jsx';
+import { getConversationId } from '../../../utils/chat.js';
+
 
 const ChatActions = () => {
 	const dispatch = useDispatch();
@@ -21,6 +23,7 @@ const ChatActions = () => {
 	const values = {
 		message,
 		convo_id: activeConversation._id,
+		receiver_id: getConversationId(user, activeConversation?.users),
 		token,
 	};
 
@@ -32,6 +35,7 @@ const ChatActions = () => {
 		setShowAttachments(false);
 		setShowPicker(false);
 		let newMsg = await dispatch(sendMessage(values));
+		console.log("newMsg",newMsg);
 		socket.emit('send message', newMsg.payload);
 		setMessage('');
 		setLoading(false);
