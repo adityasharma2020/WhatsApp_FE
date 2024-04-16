@@ -18,7 +18,7 @@ const SearchResults = ({ searchResults }) => {
 							return <Contact contact={user} key={user._id} />;
 						})
 					) : (
-						<>NOTHING FOIND</>
+						<div className='flex  justify-center items-center py-28 text-white'>No user found !</div>
 					)}
 				</ul>
 			</div>

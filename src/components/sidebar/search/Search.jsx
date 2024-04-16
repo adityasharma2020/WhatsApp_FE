@@ -3,9 +3,9 @@ import { FilterIcon, ReturnIcon, SearchIcon } from '../../../svg';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 
-const Search = ({ searchLength, setSearchResults }) => {
+const Search = ({ searchLength, setSearchResults,inputValue,setInputValue }) => {
 	const [show, setShow] = useState(false);
-	const [inputValue, setInputValue] = useState('');
+	
 	const { user } = useSelector((state) => state.user);
 	const { token } = user;
 
@@ -37,7 +37,7 @@ const Search = ({ searchLength, setSearchResults }) => {
 		} else {
 			setSearchResults([]);
 		}
-	}, 300);
+	}, 500);
 
 	const clearSearch = () => {
 		setSearchResults([]);
