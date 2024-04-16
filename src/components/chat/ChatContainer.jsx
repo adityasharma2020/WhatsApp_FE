@@ -24,7 +24,7 @@ const ChatContainer = () => {
 	}, [activeConversation?._id]);
 
 	return (
-		<div className='relative  h-full  w-screen border-l dark:border-l-dark_border_2 select-none '>
+		<div className='relative  h-full min-w-[100%] md:min-w-[70%]  border-l dark:border-l-dark_border_2 select-none '>
 			{/* container */}
 			<div className=''>
 				{/* chat header */}

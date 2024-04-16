@@ -23,7 +23,7 @@ export default function Home() {
 	useEffect(() => {
 		socket.on('receive message', (message) => {
 			console.log(message);
-			dispatch(updateMessagesAndConversations(message))
+			dispatch(updateMessagesAndConversations(message));
 		});
 	}, []);
 
@@ -35,7 +35,7 @@ export default function Home() {
 	}, [user, dispatch]);
 
 	return (
-		<div className='min-h-screen w-full dark:bg-dark_bg_1   flex items-center justify-around overflow-hidden'>
+		<div className='min-h-screen w-full  dark:bg-dark_bg_1  flex items-center justify-around overflow-hidden overflow-x-scroll scrollbar-hide'>
 			{/* container */}
 
 			<div className='container h-screen flex '>
