@@ -18,9 +18,9 @@ const Search = ({ searchLength, setSearchResults,inputValue,setInputValue }) => 
 	};
 
 	const handleSearch = debounce(async (e) => {
-		console.log('asdfasdf', e.target.value.length);
+	
 		if (e.target.value.length > 2) {
-			console.log('asdfasdf', e.target.value);
+			
 			try {
 				const { data } = await axios.get(
 					`${process.env.REACT_APP_API_ENDPOINT}/user?search=${e.target.value}`,
@@ -32,7 +32,7 @@ const Search = ({ searchLength, setSearchResults,inputValue,setInputValue }) => 
 				);
 				setSearchResults(data);
 			} catch (error) {
-				console.log(error?.response?.data?.error?.message);
+			
 			}
 		} else {
 			setSearchResults([]);

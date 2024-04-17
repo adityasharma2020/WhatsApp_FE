@@ -7,12 +7,8 @@ import { io } from 'socket.io-client';
 import { useEffect } from 'react';
 import { jwtDecode } from 'jwt-decode';
 import SocketContext from './context/SocketContext';
-import Cookies from 'js-cookie';
 // socket io connection
 const socket = io(process.env.REACT_APP_SERVER_ENDPOINT);
-
-const refreshToken = Cookies.get('refreshToken');
-console.log('refresh token :', refreshToken);
 
 function App() {
 	const { user } = useSelector((state) => state.user);
@@ -27,7 +23,7 @@ function App() {
 
 	useEffect(() => {
 		socket.on('receiveMessage', (msg) => {
-			console.log(msg);
+
 		});
 	});
 

@@ -1,13 +1,15 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getConversationMessages } from '../../Slices/chatSlice.js';
 import ChatHeader from './header/ChatHeader.jsx';
 import ChatMessages from './messages/ChatMessages.jsx';
 import { ChatActions } from './actions/index.js';
+import { checkOnlineStatus } from '../../utils/chat.js';
 
-const ChatContainer = () => {
+const ChatContainer = ({ onlineUsers, typing }) => {
 	const { activeConversation } = useSelector((state) => state.chat);
 	const { user } = useSelector((state) => state.user);
+	
 	const { token } = user;
 
 	const dispatch = useDispatch();
@@ -15,11 +17,16 @@ const ChatContainer = () => {
 		token,
 		convo_id: activeConversation?._id,
 	};
+	const dispatchHandler = async () => {
+		await dispatch(getConversationMessages(values));
+	};
 
 	useEffect(() => {
 		if (activeConversation._id) {
-			dispatch(getConversationMessages(values));
+			dispatchHandler();
+			
 		}
+
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [activeConversation?._id]);
 
@@ -28,13 +35,15 @@ const ChatContainer = () => {
 			{/* container */}
 			<div className=''>
 				{/* chat header */}
-				<ChatHeader />
+				<ChatHeader
+					online={checkOnlineStatus(onlineUsers, user, activeConversation.users)}
+				/>
 
 				{/* Chat messages */}
-				<ChatMessages />
+				<ChatMessages typing={typing} />
 
 				{/* chat actions */}
-				<ChatActions />
+				<ChatActions  />
 			</div>
 		</div>
 	);

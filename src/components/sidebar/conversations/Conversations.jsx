@@ -1,10 +1,11 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import Conversation from './Conversation';
+import { checkOnlineStatus } from '../../../utils/chat';
 
-const Conversations = () => {
+const Conversations = ({ onlineUsers, typing }) => {
 	const { conversations } = useSelector((state) => state.chat);
-	// console.log(conversations);
+	const { user } = useSelector((state) => state.user);
 	return (
 		<div className='convos scrollbar '>
 			<ul>
@@ -12,7 +13,17 @@ const Conversations = () => {
 					conversations
 						.filter((c) => c.latestMessage) //filtering converstions which have latest message in it.
 						.map((convo) => {
-							return <Conversation convo={convo} key={convo._id} />;
+							let check = checkOnlineStatus(onlineUsers, user, convo.users);
+
+							return (
+								<Conversation
+									convo={convo}
+									key={convo._id}
+									online={check ? true : false}
+									typing={typing}
+									
+								/>
+							);
 						})}
 			</ul>
 		</div>

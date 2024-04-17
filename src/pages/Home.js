@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Sidebar } from '../components/sidebar';
 import { getConversations, updateMessagesAndConversations } from '../Slices/chatSlice';
@@ -11,20 +11,30 @@ export default function Home() {
 	const { user } = useSelector((state) => state.user);
 	const { activeConversation } = useSelector((state) => state.chat);
 	const socket = useContext(SocketContext);
-
+	const [onlineUsers, setOnlineUsers] = useState([]);
+	const [typing, setTyping] = useState(false);
 	//------------join user into the socket.io--------------
 
 	//join user into the socket
 	useEffect(() => {
 		socket.emit('join', user._id);
+		//get online users
+		socket.on('get-online-users', (users) => {
+		
+			setOnlineUsers(users);
+		});
 	}, [user]);
 
-	//listening to reveived messages
 	useEffect(() => {
+		//listening to reveived messages
 		socket.on('receive message', (message) => {
-			console.log(message);
+			
 			dispatch(updateMessagesAndConversations(message));
 		});
+
+		// listening to typing
+		socket.on('typing', (conversation) => setTyping(conversation));
+		socket.on('stop typing', () => setTyping(false));
 	}, []);
 
 	//--------------get conversations-------------------------
@@ -40,8 +50,12 @@ export default function Home() {
 
 			<div className='container h-screen flex '>
 				{/* sidebar */}
-				<Sidebar />
-				{activeConversation?._id ? <ChatContainer /> : <WhatsappHome />}
+				<Sidebar onlineUsers={onlineUsers} typing={typing} />
+				{activeConversation?._id ? (
+					<ChatContainer onlineUsers={onlineUsers} typing={typing} />
+				) : (
+					<WhatsappHome />
+				)}
 			</div>
 		</div>
 	);

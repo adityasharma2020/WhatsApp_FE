@@ -12,7 +12,6 @@ function tokenInterceptor(store) {
 			
 				const { token, tokenExpires } = store.getState().user?.user;
 				const refreshToken = Cookies.get('refreshToken');
-				console.log('sdfasdfsdfsdfsfsdf', token, tokenExpires, refreshToken);
 				// Check if accessToken is expired or missing
 				const now = Date.now() / 1000; // Convert milliseconds to seconds
 				const isAccessTokenExpired = !token || tokenExpires < now;

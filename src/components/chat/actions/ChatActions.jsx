@@ -9,7 +9,6 @@ import { ClipLoader } from 'react-spinners';
 import SocketContext from '../../../context/SocketContext.jsx';
 import { getConversationId } from '../../../utils/chat.js';
 
-
 const ChatActions = () => {
 	const dispatch = useDispatch();
 	const [message, setMessage] = useState('');
@@ -30,16 +29,21 @@ const ChatActions = () => {
 	const socket = useContext(SocketContext);
 
 	const SendMessageHander = async (e) => {
-		setLoading(true);
 		e.preventDefault();
+		// Check if message is empty or previous state is still loading
+		if (message.trim() === '' || (status === 'loading' && loading)) {
+			return;
+		}
+		setLoading(true);
 		setShowAttachments(false);
 		setShowPicker(false);
 		let newMsg = await dispatch(sendMessage(values));
-		console.log("newMsg",newMsg);
+		
 		socket.emit('send message', newMsg.payload);
 		setMessage('');
 		setLoading(false);
 	};
+
 	return (
 		<form
 			onSubmit={(e) => SendMessageHander(e)}

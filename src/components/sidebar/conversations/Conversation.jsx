@@ -11,7 +11,7 @@ import { capitalize } from '../../../utils/string';
 import SocketContext from '../../../context/SocketContext';
 import MessageStatus from '../../chat/messages/MessageStatus';
 
-const Conversation = ({ convo }) => {
+const Conversation = ({ convo, online, typing }) => {
 	const dispath = useDispatch();
 	const { user } = useSelector((state) => state?.user);
 	const { activeConversation } = useSelector((state) => state?.chat);
@@ -22,6 +22,7 @@ const Conversation = ({ convo }) => {
 		token,
 	};
 	const openConversation = async () => {
+	
 		let newConvo = await dispath(open_create_conversation(values));
 		socket.emit('join conversation', newConvo?.payload?._id);
 	};
@@ -40,11 +41,15 @@ const Conversation = ({ convo }) => {
 				{/* left */}
 				<div className='flex items-center gap-x-4'>
 					{/* conversation user picture */}
-					<div className='relative min-w-[50px] max-w-[50px] h-[50px] rounded-full overflow-hidden'>
+					<div
+						className={`relative min-w-[50px] max-w-[50px] h-[50px] rounded-full overflow-hidden ${
+							online ? 'online' : ''
+						} `}
+					>
 						<img
 							src={getConversationPicture(user, convo.users)}
 							alt='conversationPic'
-							className='w-full h-full object-cover'
+							className={`w-full h-full object-cover`}
 						/>
 					</div>
 
@@ -58,17 +63,28 @@ const Conversation = ({ convo }) => {
 						<div>
 							<div className='flex  items-center gap-x-1 dark:text-dark_text_2'>
 								<div className='flex text-xs items-center gap-x-1 dark:text-dark_text_2'>
-									{convo.latestMessage.sender._id === user._id && (
-										<MessageStatus
-											messageStatus={convo.latestMessage.messageStatus}
-										/>
-									)}
+									{typing === convo._id ? (
+										<p className='text-green_2'>typing...</p>
+									) : (
+										<>
+											{convo.latestMessage.sender._id === user._id && (
+												<MessageStatus
+													messageStatus={
+														convo.latestMessage.messageStatus
+													}
+												/>
+											)}
 
-									<p>
-										{[...convo?.latestMessage?.message].length > 15 // we are spreading the message into an array because , emojis  make length function diffrently
-											? `${convo?.latestMessage?.message.substring(0, 25)}..`
-											: convo?.latestMessage?.message}
-									</p>
+											<p>
+												{[...convo?.latestMessage?.message].length > 15 // we are spreading the message into an array because , emojis  make length function diffrently
+													? `${convo?.latestMessage?.message.substring(
+															0,
+															25
+													  )}..`
+													: convo?.latestMessage?.message}
+											</p>
+										</>
+									)}
 								</div>
 							</div>
 						</div>

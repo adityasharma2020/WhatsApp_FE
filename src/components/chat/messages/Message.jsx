@@ -7,7 +7,7 @@ import MessageStatus from './MessageStatus';
 
 const Message = ({ message, me }) => {
 	const { user } = useSelector((state) => state.user);
-	console.log('sadfsdf', message.messageStatus);
+
 	return (
 		<div className={`w-full flex mt-2 space-x-3 max-w-xs ${me ? 'ml-auto justify-end' : ''}`}>
 			{/* message container */}

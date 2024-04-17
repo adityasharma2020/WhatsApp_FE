@@ -4,7 +4,7 @@ import { DotsIcon, SearchLargeIcon } from '../../../svg';
 import { capitalize } from '../../../utils/string';
 import { getConversationName, getConversationPicture } from '../../../utils/chat';
 
-const ChatHeader = () => {
+const ChatHeader = ({ online }) => {
 	const { activeConversation } = useSelector((state) => state.chat);
 	const { user } = useSelector((state) => state.user);
 	const { name, picture } = activeConversation;
@@ -34,7 +34,9 @@ const ChatHeader = () => {
 								)}
 							</h1>
 
-							<span className='text-xs dark:text-dark_svg_2'>online</span>
+							<span className='text-xs dark:text-dark_svg_2'>
+								{online ? 'online' : 'offline'}
+							</span>
 						</div>
 					</div>
 				</div>

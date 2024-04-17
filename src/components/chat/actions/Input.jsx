@@ -1,12 +1,37 @@
-import React from 'react';
+import React, { useContext, useEffect, useRef } from 'react';
+import SocketContext from '../../../context/SocketContext';
+import { useSelector } from 'react-redux';
 
 const Input = ({ message, setMessage, textRef }) => {
+	const { activeConversation } = useSelector((state) => state.chat);
+	const socket = useContext(SocketContext);
+
+	const typingRef = useRef(false);
+	const lastTypingTimeRef = useRef(0);
+
 	const onChangeHandler = (e) => {
 		setMessage(e.target.value);
-		if (e.target.value.trim() === '') {
-			setMessage('');
+		if (!typingRef.current) {
+			typingRef.current = true;
+			socket.emit('typing', activeConversation._id);
 		}
+		lastTypingTimeRef.current = new Date().getTime();
+		let timer = 2000;
+
+		// Delay execution of the setTimeout callback by 5 seconds
+		setTimeout(() => {
+			let timeNow = new Date().getTime();
+			let timeDiff = timeNow - lastTypingTimeRef.current;
+			if (timeDiff >= timer && typingRef.current) {
+				socket.emit('stop typing', activeConversation._id);
+				typingRef.current = false;
+			}
+		}, timer);
 	};
+
+	useEffect(() => {
+		setMessage('');
+	}, [activeConversation, setMessage]);
 
 	return (
 		<div className='w-full'>
