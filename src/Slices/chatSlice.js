@@ -75,7 +75,7 @@ export const getConversationMessages = createAsyncThunk(
 export const sendMessage = createAsyncThunk(
 	'/messages/send',
 	async (values, { rejectWithValue }) => {
-		const { token,receiver_id, message, convo_id, files } = values;
+		const { token, receiver_id, message, convo_id, files } = values;
 		try {
 			const { data } = await axios.post(
 				`${MESSAGE_ENDPOINT}`,
@@ -103,6 +103,9 @@ export const chatSlice = createSlice({
 	name: 'chat',
 	initialState,
 	reducers: {
+		clearConversation: (state) => {
+			state.activeConversation = {};
+		},
 		updateMessagesAndConversations: (state, action) => {
 			// Update message
 
@@ -191,6 +194,6 @@ export const chatSlice = createSlice({
 	},
 });
 
-export const { updateMessagesAndConversations } = chatSlice.actions;
+export const { updateMessagesAndConversations, clearConversation } = chatSlice.actions;
 
 export default chatSlice.reducer;

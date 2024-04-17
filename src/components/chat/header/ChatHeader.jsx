@@ -1,13 +1,16 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
-import { DotsIcon, SearchLargeIcon } from '../../../svg';
+import { useDispatch, useSelector } from 'react-redux';
+import { DotsIcon, ReturnIcon, SearchLargeIcon } from '../../../svg';
 import { capitalize } from '../../../utils/string';
 import { getConversationName, getConversationPicture } from '../../../utils/chat';
+import { clearConversation } from '../../../Slices/chatSlice';
 
 const ChatHeader = ({ online }) => {
 	const { activeConversation } = useSelector((state) => state.chat);
 	const { user } = useSelector((state) => state.user);
 	const { name, picture } = activeConversation;
+	const dispatch = useDispatch();
+
 	return (
 		<div className='h-[59px] dark:bg-dark_bg_2 flex items-center p16 select-none '>
 			{/* container */}
@@ -15,6 +18,13 @@ const ChatHeader = ({ online }) => {
 				{/* left */}
 				<div className='flex items-center justify-between'>
 					<div className='flex items-center gap-x-4'>
+						{/* back arrow */}
+						<span
+							className='w-10  cursor-pointer'
+							onClick={() => dispatch(clearConversation())}
+						>
+							<ReturnIcon className=' w-5  dark:fill-slate-300 ' />
+						</span>
 						{/* conversation Image */}
 						<button className='btn'>
 							<img
