@@ -3,6 +3,7 @@ import image from '../../../assets/bg_image.jpg';
 import { useSelector } from 'react-redux';
 import Message from './Message';
 import Typing from './Typing';
+import FileMessage from './FileMessage';
 
 const ChatMessages = ({ typing }) => {
 	const { messages, activeConversation } = useSelector((state) => state.chat);
@@ -13,6 +14,7 @@ const ChatMessages = ({ typing }) => {
 		// when a new message added we make scroll to the end div that we added in last.
 		endRef.current.scrollIntoView({ behaviour: 'smooth' });
 	}, [messages, typing]);
+
 	return (
 		<div
 			className='mb-[60px] bg-cover bg-no-repeat'
@@ -24,12 +26,27 @@ const ChatMessages = ({ typing }) => {
 				{messages &&
 					messages.map((message) => {
 						return (
-							<Message
-							
-								message={message}
-								me={user?._id === message.sender?._id}
-								key={message?._id}
-							/>
+							<div key={message._id}>
+								{/* message file */}
+								{message?.files.length > 0
+									? message.files.map((file, index) => (
+											<FileMessage
+												fileMessage={file}
+												message={message}
+												key={`file-${message._id}-${index}`}
+												me={user._id === message.sender._id}
+											/>
+									  ))
+									: ''}
+								{/* message text */}
+								{message?.message.length > 0 ? (
+									<Message
+										message={message}
+										me={user?._id === message.sender?._id}
+										key={`text-${message._id}`} // Use a unique key for each FileMessage
+									/>
+								) : null}
+							</div>
 						);
 					})}
 

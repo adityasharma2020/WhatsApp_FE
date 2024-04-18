@@ -13,22 +13,25 @@ const Message = ({ message, me }) => {
 			{/* message container */}
 			<div>
 				<div
-					className={`relative h-full dark:text-dark_text_1 p-2 rounded-lg ${
+					className={`relative h-full w-full  dark:text-dark_text_1 p-2 rounded-lg ${
 						me ? 'bg-green_3' : 'dark:bg-dark_bg_2'
 					}`}
 				>
 					{/* message */}
-					<p className='float-left h-full text-sm pb-5 pr-8'>{message.message}</p>
+					<p className='float-left h-full text-sm pb-5 pr-8  break-all'>
+						{message.message}
+					</p>
 
 					<div className='flex'>
+						{message.sender._id === user._id && (
+							<div className=' absolute right-10 bottom-1 float-right'>
+								<MessageStatus messageStatus={message.messageStatus} />
+							</div>
+						)}
 						{/* message date */}
-						<span className=' absolute right-1.5 bottom-1.5 float-right text-xs pt-6 text-dark_text_5 leading-none'>
+						<span className=' absolute right-1.5 bottom-1 float-right text-xs pt-6 text-dark_text_5 leading-none'>
 							{moment(message.createdAt).format('HH:mm')}
 						</span>
-
-						{message.sender._id === user._id && (
-							<MessageStatus messageStatus={message.messageStatus} />
-						)}
 					</div>
 
 					{/* triangle */}
