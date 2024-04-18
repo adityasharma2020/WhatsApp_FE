@@ -27,6 +27,8 @@ const Conversation = ({ convo, online, typing }) => {
 		socket.emit('join conversation', newConvo?.payload?._id);
 	};
 
+	
+
 	return (
 		<li
 			onClick={() => openConversation()}

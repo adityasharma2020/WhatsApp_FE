@@ -5,11 +5,12 @@ import ChatHeader from './header/ChatHeader.jsx';
 import ChatMessages from './messages/ChatMessages.jsx';
 import { ChatActions } from './actions/index.js';
 import { checkOnlineStatus } from '../../utils/chat.js';
+import FilePreview from './preview/files/FilePreview.jsx';
 
 const ChatContainer = ({ onlineUsers, typing }) => {
-	const { activeConversation } = useSelector((state) => state.chat);
+	const { activeConversation, files } = useSelector((state) => state.chat);
 	const { user } = useSelector((state) => state.user);
-	
+
 	const { token } = user;
 
 	const dispatch = useDispatch();
@@ -24,14 +25,13 @@ const ChatContainer = ({ onlineUsers, typing }) => {
 	useEffect(() => {
 		if (activeConversation._id) {
 			dispatchHandler();
-			
 		}
 
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [activeConversation?._id]);
 
 	return (
-		<div className='relative  h-full min-w-[100%] sm:min-w-[70%]  border-l dark:border-l-dark_border_2 select-none '>
+		<div className='relative  h-full min-w-[100%] md:min-w-[70%]  border-l dark:border-l-dark_border_2 select-none '>
 			{/* container */}
 			<div className=''>
 				{/* chat header */}
@@ -39,11 +39,17 @@ const ChatContainer = ({ onlineUsers, typing }) => {
 					online={checkOnlineStatus(onlineUsers, user, activeConversation.users)}
 				/>
 
-				{/* Chat messages */}
-				<ChatMessages typing={typing} />
+				{files.length > 0 ? (
+					<FilePreview />
+				) : (
+					<>
+						{/* Chat messages */}
+						<ChatMessages typing={typing} />
 
-				{/* chat actions */}
-				<ChatActions  />
+						{/* chat actions */}
+						<ChatActions />
+					</>
+				)}
 			</div>
 		</div>
 	);

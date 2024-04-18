@@ -12,9 +12,9 @@ export default function Home() {
 	const { activeConversation } = useSelector((state) => state.chat);
 	const socket = useContext(SocketContext);
 	const [onlineUsers, setOnlineUsers] = useState([]);
-	const [typing, setTyping] = useState(false);
+	const [typing, setTyping] = useState(null);
 	const [showSidebar, setShowSidebar] = useState(true); // Initially show the sidebar
-    const [isSmallScreen, setIsSmallScreen] = useState(false);
+	const [isSmallScreen, setIsSmallScreen] = useState(false);
 	//------------join user into the socket.io--------------
 
 	//join user into the socket
@@ -44,9 +44,15 @@ export default function Home() {
 		});
 
 		// listening to typing
-		socket.on('typing', (conversation) => setTyping(conversation));
-		socket.on('stop typing', () => setTyping(false));
-	}, []);
+		socket.on('typing', (conversation) => {
+			console.log('typing');
+			setTyping(conversation);
+		});
+
+		socket.on('stop typing', () => {
+			setTyping(false);
+		});
+	}, [user]);
 
 	//--------------get conversations-------------------------
 	useEffect(() => {

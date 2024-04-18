@@ -10,6 +10,7 @@ const initialState = {
 	activeConversation: {},
 	messages: [],
 	notifications: [],
+	files: [],
 };
 
 // functions
@@ -128,6 +129,9 @@ export const chatSlice = createSlice({
 			newConvos.unshift(conversation);
 			state.conversations = newConvos;
 		},
+		addFiles: (state, action) => {
+			state.files = [...state.files, action.payload];
+		},
 	},
 
 	extraReducers(builder) {
@@ -149,6 +153,7 @@ export const chatSlice = createSlice({
 			.addCase(open_create_conversation.fulfilled, (state, action) => {
 				state.status = 'succeeded';
 				state.activeConversation = action.payload;
+				state.files = [];
 			})
 			.addCase(open_create_conversation.rejected, (state, action) => {
 				state.status = 'failed';
@@ -194,6 +199,6 @@ export const chatSlice = createSlice({
 	},
 });
 
-export const { updateMessagesAndConversations, clearConversation } = chatSlice.actions;
+export const { addFiles, updateMessagesAndConversations, clearConversation } = chatSlice.actions;
 
 export default chatSlice.reducer;

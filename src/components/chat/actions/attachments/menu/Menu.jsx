@@ -6,10 +6,11 @@ import {
 	PhotoIcon,
 	PollIcon,
 	StickerIcon,
-} from '../../../../svg';
+} from '../../../../../svg';
+import PhotoAttachment from './PhotoAttachment';
+import DocumentAttachment from './DocumentAttachment';
 
 const Menu = () => {
-   
 	return (
 		<ul className='absolute bottom-14 openEmojiAnimation '>
 			<li>
@@ -22,11 +23,9 @@ const Menu = () => {
 					<ContactIcon />
 				</button>
 			</li>
-			<li>
-				<button type='button' className='bg-[#5F66CD] rounded-full'>
-					<DocumentIcon />
-				</button>
-			</li>
+
+			<DocumentAttachment />
+
 			<li>
 				<button type='button' className='bg-[#D3396D] rounded-full'>
 					<CameraIcon />
@@ -38,11 +37,7 @@ const Menu = () => {
 				</button>
 			</li>
 
-			<li>
-				<button type='button' className='bg-[#BF59CF] rounded-full'>
-					<PhotoIcon />
-				</button>
-			</li>
+			<PhotoAttachment />
 		</ul>
 	);
 };
