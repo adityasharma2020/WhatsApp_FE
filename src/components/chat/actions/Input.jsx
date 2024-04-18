@@ -16,7 +16,7 @@ const Input = ({ message, setMessage, textRef }) => {
 			socket.emit('typing', activeConversation._id);
 		}
 		lastTypingTimeRef.current = new Date().getTime();
-		let timer = 2000;
+		let timer = 1000;
 
 		// Delay execution of the setTimeout callback by 5 seconds
 		setTimeout(() => {

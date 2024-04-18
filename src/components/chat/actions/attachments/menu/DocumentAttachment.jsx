@@ -46,6 +46,16 @@ const DocumentAttachment = () => {
 		});
 	};
 
+	const limitFileSelection = (event) => {
+		const maxFiles = 20;
+		const files = event.target.files;
+
+		// Check if the number of selected files exceeds the limit
+		if (files && files.length > maxFiles) {
+			event.target.value = null; // Clear the selected files
+		}
+	};
+
 	return (
 		<li>
 			<button
@@ -60,8 +70,10 @@ const DocumentAttachment = () => {
 				type='file'
 				hidden
 				ref={inputRef}
+				multiple
 				accept='application/*,text/plain,audio/mpeg,audio/wav'
 				onChange={documentHandler}
+				onInput={limitFileSelection}
 			/>
 		</li>
 	);

@@ -57,6 +57,9 @@
 	border: 2px solid #00a884;
 }
 
+.hview {
+	height: calc(100vh - 280px);
+}
 
 /* animations */
 
@@ -75,6 +78,7 @@
 /* width */
 .scrollbar::-webkit-scrollbar {
 	width: 5px;
+	height: 5px;
 }
 
 /* track */
@@ -87,6 +91,11 @@
 	background: #444e54;
 	border-radius: 5px;
 }
+.scrollbar::-webkit-bar-track {
+	background: transparent; /* Color of the track */
+}
+
+
 
 .scrollbar-hide::-webkit-scrollbar {
 	display: none;
@@ -95,6 +104,7 @@
 /* general scrollbar */
 ::-webkit-scrollbar {
 	width: 5px;
+	height: 5px;
 }
 ::-webkit-scrollbar-track {
 	background: transparent;
@@ -102,6 +112,9 @@
 ::-webkit-scrollbar-thumb {
 	background: #444e54;
 	border-radius: 5px;
+}
+::-webkit-bar-track {
+	background: transparent; /* Color of the track */
 }
 
 .bar {
@@ -114,7 +127,7 @@
 }
 
 .bar::-webkit-bar-track {
-	background: #f1f1f1; /* Color of the track */
+	background: transparent; /* Color of the track */
 }
 
 .bar::-webkit-bar-thumb {

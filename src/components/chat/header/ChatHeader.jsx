@@ -23,7 +23,7 @@ const ChatHeader = ({ online }) => {
 							className='w-10  cursor-pointer'
 							onClick={() => dispatch(clearConversation())}
 						>
-							<ReturnIcon className=' w-5  dark:fill-slate-300 ' />
+							<ReturnIcon className=' w-5  dark:fill-dark_svg_1 ' />
 						</span>
 						{/* conversation Image */}
 						<button className='btn'>
