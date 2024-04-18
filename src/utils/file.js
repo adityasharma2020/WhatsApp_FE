@@ -23,7 +23,12 @@ export const getFileType = (memType) => {
 		case 'video/mp4':
 		case 'video/mpeg':
 			return 'VIDEO';
-		default:
+		case 'image/png':
+		case 'image/jpeg':
+		case 'image/webp':
+		case 'image/gif':
 			return 'IMAGE';
+		default:
+			return 'DEFAULT';
 	}
 };

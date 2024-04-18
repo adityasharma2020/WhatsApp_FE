@@ -22,7 +22,11 @@ const FilePreview = () => {
 					<Input message={message} setMessage={setMessage} />
 
 					{/* send and manipulate files */}
-					<HandleAndSend activeIndex={activeIndex} setActiveIndex={setActiveIndex} />
+					<HandleAndSend
+						activeIndex={activeIndex}
+						message={message}
+						setActiveIndex={setActiveIndex}
+					/>
 				</div>
 			</div>
 		</div>

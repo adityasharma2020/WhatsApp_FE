@@ -21,11 +21,11 @@ const Header = ({ activeIndex }) => {
 
 				{/* File Name */}
 				<h1 className='dark:text-dark_text_1 text-[15px]'>
-					{files[activeIndex].file.name.length > 15
-						? `${files[activeIndex].file.name.substring(0, 35)}... .${
-								files[activeIndex].file.type.split('/')[1]
+					{files[activeIndex]?.file?.name?.length > 35
+						? `${files[activeIndex]?.file?.name?.substring(0, 35)}... .${
+								files[activeIndex].type
 						  }`
-						: files[activeIndex].file.name}
+						: files[activeIndex]?.file?.name}
 				</h1>
 				{/* empty tag */}
 				<div></div>

@@ -58,8 +58,12 @@
 }
 
 .hview {
-	height: calc(100vh - 280px);
+	height: calc(100vh - 300px);
+	padding: 8px 0;
 }
+
+
+.
 
 /* animations */
 
@@ -94,8 +98,6 @@
 .scrollbar::-webkit-bar-track {
 	background: transparent; /* Color of the track */
 }
-
-
 
 .scrollbar-hide::-webkit-scrollbar {
 	display: none;
