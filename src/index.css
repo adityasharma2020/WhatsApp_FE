@@ -20,6 +20,12 @@
 	.btn {
 		@apply w-[40px] h-[40px] rounded-full flex items-center justify-center active:bg-dark_hover_1;
 	}
+
+	/* for call actions */
+	.btn_secondary {
+		@apply w-[45px] h-[45px] rounded-full flex items-center justify-center bg-dark_bg_2;
+	}
+
 	.p16 {
 		@apply px-[16px];
 	}
@@ -62,19 +68,22 @@
 	padding: 8px 0;
 }
 
-
-.
-
-/* animations */
-
-.rotateAnimation {
-	animation: rotate 0.3s forwards;
+.callbg {
+	background-image: linear-gradient(rgb(68, 126, 87), rgb(0, 0, 0)), url(./assets/bg_image.jpg);
+	background-size: cover;
+	background-blend-mode: saturation;
 }
 
-@keyframes rotate {
-	0% {
-		transform: rotate(-90deg);
-	}
+.largeVideoCall {
+	@apply absolute top-0 bottom-0 left-0 right-0 z-20 object-cover h-full bg-red-400 cursor-pointer;
+}
+
+.smallVideoCall {
+	@apply w-28 h-32 object-cover absolute bottom-4 right-2 z-30 bg-blue-500 cursor-pointer rounded-lg;
+}
+
+.moveVideoCall{
+	@apply bottom-32 transition-all duration-100;
 }
 
 /* --------custom scrollbar------ */
@@ -137,6 +146,39 @@
 	border-radius: 20px; /* Roundness of the bar */
 	border: 3px solid #555; /* Border style */
 }
+
+/* animations */
+
+.rotateAnimation {
+	animation: rotate 0.3s forwards;
+}
+
+@keyframes rotate {
+	0% {
+		transform: rotate(-90deg);
+	}
+}
+
+/* emojis animation */
+.openEmojiAnimation {
+	animation: openAn 0.1s forwards;
+}
+@keyframes openAn {
+	0% {
+		transform: translateY(60px);
+	}
+}
+
+/* video call actions animation */
+.openToolsAnimation {
+	animation: openTools 0.2s forwards;
+}
+@keyframes openTools {
+	0% {
+		transform: translateY(100%);
+	}
+}
+
 /*---Emoji picker plugin custom css-----*/
 .epr-dark-theme {
 	background: #202c33 !important;
@@ -148,14 +190,7 @@
 	height: 400px !important;
 }
 
-.openEmojiAnimation {
-	animation: openAn 0.1s forwards;
-}
-@keyframes openAn {
-	0% {
-		transform: translateY(60px);
-	}
-}
+/* emoji custom classes  */
 .epr-search-container input {
 	background: #222e35 !important;
 	border-radius: 0 !important;
@@ -200,12 +235,4 @@
 .epr-header {
 	display: flex;
 	flex-direction: column-reverse;
-}
-.openToolsAnimation {
-	animation: openTools 0.2s forwards;
-}
-@keyframes openTools {
-	0% {
-		transform: translateY(100%);
-	}
 }

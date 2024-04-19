@@ -1,10 +1,17 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Sidebar } from '../components/sidebar';
 import { getConversations, updateMessagesAndConversations } from '../Slices/chatSlice';
 import { WhatsappHome } from '../components/chat/welcome';
 import { ChatContainer } from '../components/chat';
 import SocketContext from '../context/SocketContext';
+import Call from '../components/chat/call/Call';
+
+
+let callData = {
+	receiveingCall: false,
+	callEnded: false,
+};
 
 export default function Home() {
 	const dispatch = useDispatch();
@@ -15,6 +22,15 @@ export default function Home() {
 	const [typing, setTyping] = useState(null);
 	const [showSidebar, setShowSidebar] = useState(true); // Initially show the sidebar
 	const [isSmallScreen, setIsSmallScreen] = useState(false);
+
+	const [callAccepted, setCallAccepted] = useState(false);
+	const [call, setCall] = useState(callData);
+	const [stream, setSream] = useState(null);
+
+	const myVideo = useRef();
+	const userVideo = useRef();
+	// ------------------------Calling ------------------------
+
 	//------------join user into the socket.io--------------
 
 	//join user into the socket
@@ -70,17 +86,31 @@ export default function Home() {
 	}, [activeConversation, isSmallScreen]);
 
 	return (
-		<div className='min-h-screen w-full  dark:bg-dark_bg_1  flex items-center justify-around overflow-hidden overflow-x-scroll scrollbar-hide'>
-			{/* container */}
-			<div id="installApp"></div>
-			<div className='container h-screen flex '>
-				{/* sidebar */}
-				{showSidebar && <Sidebar onlineUsers={onlineUsers} typing={typing} />}
-				{activeConversation?._id && (
-					<ChatContainer onlineUsers={onlineUsers} typing={typing} />
-				)}
-				{!isSmallScreen && !activeConversation?._id && <WhatsappHome />}
+		<>
+			<div className='min-h-screen w-full  dark:bg-dark_bg_1  flex items-center justify-around overflow-hidden overflow-x-scroll scrollbar-hide'>
+				{/* container */}
+				<div id='installApp'></div>
+				<div className='container h-screen flex '>
+					{/* sidebar */}
+					{showSidebar && <Sidebar onlineUsers={onlineUsers} typing={typing} />}
+					{activeConversation?._id && (
+						<ChatContainer onlineUsers={onlineUsers} typing={typing} />
+					)}
+					{!isSmallScreen && !activeConversation?._id && <WhatsappHome />}
+				</div>
 			</div>
-		</div>
+
+			
+				<Call
+					setCall={setCall}
+					call={call}
+					callAccepted={callAccepted}
+					userVideo={userVideo}
+					myVideo={myVideo}
+					stream={stream}
+					isSmallScreen={isSmallScreen}
+				/>
+			
+		</>
 	);
 }
