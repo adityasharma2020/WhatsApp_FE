@@ -18,7 +18,7 @@ const HandleAndSend = ({ activeIndex, setActiveIndex, message }) => {
 	const socket = useContext(SocketContext);
 
 	const sendMessageHandler = async (e) => {
-		if (loading) return;
+		if (loading || files.length === 0) return;
 		setLoading(true);
 		// upload files first to clodunary
 		const uploaded_files = await uploadFiles(files);

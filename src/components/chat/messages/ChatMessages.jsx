@@ -6,14 +6,14 @@ import Typing from './Typing';
 import FileMessage from './FileMessage';
 
 const ChatMessages = ({ typing }) => {
-	const { messages, activeConversation } = useSelector((state) => state.chat);
+	const { messages, activeConversation,files } = useSelector((state) => state.chat);
 	const { user } = useSelector((state) => state.user);
 	const endRef = useRef();
 
 	useEffect(() => {
 		// when a new message added we make scroll to the end div that we added in last.
 		endRef.current.scrollIntoView({ behaviour: 'smooth' });
-	}, [messages, typing]);
+	}, [messages, typing,files]);
 
 	return (
 		<div
@@ -21,7 +21,7 @@ const ChatMessages = ({ typing }) => {
 			style={{ backgroundImage: `url('${image}')` }}
 		>
 			{/* container */}
-			<div className='scrollbar overflow_scrollbar overflow-auto py-2 px-[6%]'>
+			<div className='scrollbar overflow_scrollbar overflow-auto py-3 px-[6%]'>
 				{/* messages */}
 				{messages &&
 					messages.map((message) => {
@@ -33,7 +33,7 @@ const ChatMessages = ({ typing }) => {
 											<FileMessage
 												fileMessage={file}
 												message={message}
-												key={`file-${message._id}-${index}`}
+												key={`file-${message._id}-${index}`} //just to make a unique key dirrent form the top map function.
 												me={user._id === message.sender._id}
 											/>
 									  ))

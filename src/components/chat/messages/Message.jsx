@@ -18,11 +18,11 @@ const Message = ({ message, me }) => {
 					}`}
 				>
 					{/* message */}
-					<p className='float-left h-full text-sm pb-5 pr-8  break-all'>
+					<p className='float-left h-full text-sm pb-8 pr-8  break-all'>
 						{message.message}
 					</p>
 
-					<div className='flex'>
+					<div className='flex justify-center items-center'>
 						{message.sender._id === user._id && (
 							<div className=' absolute right-10 bottom-1 float-right'>
 								<MessageStatus messageStatus={message.messageStatus} />
@@ -37,7 +37,7 @@ const Message = ({ message, me }) => {
 					{/* triangle */}
 					{!me ? (
 						<span>
-							<TriangleIcon className='dark:fill-dark_bg_2 rotate-[60deg] absolute top-[-5px] -left-1.5' />
+							<TriangleIcon className=' fill-transparent rotate-[60deg] absolute top-[-5px] -left-1.5' />
 						</span>
 					) : null}
 				</div>

@@ -20,9 +20,9 @@ const FileMessage = ({ fileMessage, me, message }) => {
                     `}
 				>
 					{/* message */}
-					<div className=' h-full text-sm pb-5 '>
+					<div className=' h-full text-sm pb-8 '>
 						{type === 'IMAGE' || type === 'VIDEO' ? (
-							<FileImageVideo url={file.secure_url} type={type} />
+							<FileImageVideo url={file?.secure_url} type={type} />
 						) : (
 							<FileOthers file={file} type={type} me={me} />
 						)}
@@ -44,7 +44,7 @@ const FileMessage = ({ fileMessage, me, message }) => {
 					{/* triangle */}
 					{!me ? (
 						<span>
-							<TriangleIcon className='dark:fill-dark_bg_2 rotate-[60deg] absolute top-[-5px] -left-1.5' />
+							<TriangleIcon className=' fill-transparent rotate-[60deg] absolute top-[-5px] -left-1.5' />
 						</span>
 					) : null}
 				</div>

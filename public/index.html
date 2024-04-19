@@ -9,14 +9,28 @@
 		<meta name="keywords" content="WhatsApp, chat, Audio/video call, real-time, messaging" />
 		<meta name="author" content="Aditya Sharma" />
 		<link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-
 		<link rel="manifest" href="manifest.json" />
-
 		<title>Whatsapp</title>
 	</head>
 	<body>
 		<noscript>You need to enable JavaScript to run this app.</noscript>
-
 		<div id="root"></div>
+
+		<script>
+			let deferredPrompt;
+
+			if ('serviceWorker' in navigator) {
+				window.addEventListener('load', () => {
+					navigator.serviceWorker
+						.register('./serviceWorker.js')
+						.then((reg) => {
+							// Registration was successful
+						})
+						.catch((err) => {
+							console.error('Service Worker registration failed: ', err);
+						});
+				});
+			}
+		</script>
 	</body>
 </html>

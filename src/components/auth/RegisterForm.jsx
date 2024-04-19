@@ -33,7 +33,7 @@ export default function RegisterForm() {
 			//upload to cloudinary and then register user
 			await uploadImage().then(async (pictureData) => {
 				let res = await dispatch(
-					registerUser({ ...data, picture: pictureData.secure_url })
+					registerUser({ ...data, picture: pictureData?.secure_url })
 				);
 
 				if (res?.payload?.user) {

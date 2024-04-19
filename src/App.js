@@ -7,6 +7,7 @@ import { io } from 'socket.io-client';
 import { useEffect } from 'react';
 import { jwtDecode } from 'jwt-decode';
 import SocketContext from './context/SocketContext';
+import InstallPWAButton from './components/PWA/InstallPWAButton';
 // socket io connection
 const socket = io(process.env.REACT_APP_SERVER_ENDPOINT);
 
@@ -22,9 +23,7 @@ function App() {
 	};
 
 	useEffect(() => {
-		socket.on('receiveMessage', (msg) => {
-
-		});
+		socket.on('receiveMessage', (msg) => {});
 	});
 
 	const sendMsg = () => {
@@ -32,7 +31,7 @@ function App() {
 	};
 
 	return (
-		<div className='dark'>
+		<div className='dark  '>
 			<SocketContext.Provider value={socket}>
 				<Router>
 					<Routes>
@@ -66,6 +65,7 @@ function App() {
 					</Routes>
 				</Router>
 			</SocketContext.Provider>
+			<InstallPWAButton />
 		</div>
 	);
 }

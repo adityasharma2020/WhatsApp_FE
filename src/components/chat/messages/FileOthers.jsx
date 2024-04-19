@@ -20,19 +20,19 @@ const FileOthers = ({ file, type, me }) => {
 
 					<div className='flex flex-col gap-x-2'>
 						<h1>
-							{file.original_filename.length > 20
-								? `${file.original_filename.substring(0, 20)}...`
-								: file.original_filename}
-							.{file.public_id.split('.')[1]}
+							{file?.original_filename?.length > 20
+								? `${file?.original_filename?.substring(0, 20)}...`
+								: file?.original_filename}
+							.{file?.public_id.split('.')[1]}
 						</h1>
 						<span className='text-xs'>
-							{type} . {(file.bytes / 1024 / 1024).toFixed(2)} MB
+							{type} . {(file?.bytes / 1024 / 1024).toFixed(2)} MB
 						</span>
 					</div>
 				</div>
 
 				{/* download button */}
-				<a href={file.secure_url} download target='_blank' rel='noreferrer'>
+				<a href={file?.secure_url}  target='_blank' rel='noreferrer'>
 					<DownloadIcon />
 				</a>
 			</div>

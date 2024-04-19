@@ -72,7 +72,7 @@ export default function Home() {
 	return (
 		<div className='min-h-screen w-full  dark:bg-dark_bg_1  flex items-center justify-around overflow-hidden overflow-x-scroll scrollbar-hide'>
 			{/* container */}
-
+			<div id="installApp"></div>
 			<div className='container h-screen flex '>
 				{/* sidebar */}
 				{showSidebar && <Sidebar onlineUsers={onlineUsers} typing={typing} />}

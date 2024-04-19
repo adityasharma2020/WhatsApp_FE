@@ -12,7 +12,7 @@ const ChatHeader = ({ online }) => {
 	const dispatch = useDispatch();
 
 	return (
-		<div className='h-[59px] dark:bg-dark_bg_2 flex items-center p16 select-none '>
+		<div className='h-[59px] sticky top-1 dark:bg-dark_bg_2 flex items-center p16 select-none '>
 			{/* container */}
 			<div className='w-full flex items-center justify-between'>
 				{/* left */}
