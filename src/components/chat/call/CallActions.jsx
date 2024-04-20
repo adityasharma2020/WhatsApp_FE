@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowIcon, MuteIcon } from '../../../svg';
+import { ArrowIcon, CallIcon, MuteIcon } from '../../../svg';
 import SpeakerIcon from '../../../svg/Speaker';
 import VideoDialIcon from '../../../svg/VideoDial';
 import DialIcon from '../../../svg/Dial';
@@ -32,8 +32,8 @@ const CallActions = () => {
 						</button>
 					</li>
 					<li>
-						<button className='btn_secondary bg-red-600 rotate-[135deg]'>
-							<DialIcon className='fill-white w-6' />
+						<button className='btn_secondary bg-red-600 p-1 '>
+							<CallIcon className='fill-white ' />
 						</button>
 					</li>
 				</ul>

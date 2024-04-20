@@ -19,18 +19,18 @@
 		<script>
 			let deferredPrompt;
 
-			if ('serviceWorker' in navigator) {
-				window.addEventListener('load', () => {
-					navigator.serviceWorker
-						.register('./serviceWorker.js')
-						.then((reg) => {
-							// Registration was successful
-						})
-						.catch((err) => {
-							console.error('Service Worker registration failed: ', err);
-						});
-				});
-			}
+			// if ('serviceWorker' in navigator) {
+			// 	window.addEventListener('load', () => {
+			// 		navigator.serviceWorker
+			// 			.register('./serviceWorker.js')
+			// 			.then((reg) => {
+			// 				// Registration was successful
+			// 			})
+			// 			.catch((err) => {
+			// 				console.error('Service Worker registration failed: ', err);
+			// 			});
+			// 	});
+			// }
 		</script>
 	</body>
 </html>

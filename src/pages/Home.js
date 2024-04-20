@@ -6,11 +6,16 @@ import { WhatsappHome } from '../components/chat/welcome';
 import { ChatContainer } from '../components/chat';
 import SocketContext from '../context/SocketContext';
 import Call from '../components/chat/call/Call';
+import Peer from 'simple-peer';
+import { getConversationId, getConversationName, getConversationPicture } from '../utils/chat';
 
-
-let callData = {
+const callData = {
+	socketId: '',
 	receiveingCall: false,
 	callEnded: false,
+	name: '',
+	picture: '',
+	signal: '',
 };
 
 export default function Home() {
@@ -22,14 +27,15 @@ export default function Home() {
 	const [typing, setTyping] = useState(null);
 	const [showSidebar, setShowSidebar] = useState(true); // Initially show the sidebar
 	const [isSmallScreen, setIsSmallScreen] = useState(false);
-
-	const [callAccepted, setCallAccepted] = useState(false);
+	const [show, setShow] = useState(false);
 	const [call, setCall] = useState(callData);
-	const [stream, setSream] = useState(null);
+	const [callAccepted, setCallAccepted] = useState(false);
+	const [stream, setStream] = useState();
 
+	const { receiveingCall, callEnded, socketId } = call;
 	const myVideo = useRef();
 	const userVideo = useRef();
-	// ------------------------Calling ------------------------
+	const connectionRef = useRef();
 
 	//------------join user into the socket.io--------------
 
@@ -52,6 +58,95 @@ export default function Home() {
 			window.removeEventListener('resize', handleResize);
 		};
 	}, [user]);
+
+	// ------------------------Calling ------------------------
+	useEffect(() => {
+		setupMedia();
+		socket.on('setup socket', (id) => {
+			setCall({ ...call, socketId: id });
+		});
+		socket.on('call user', (data) => {
+			setCall({
+				...call,
+				socketId: data.from,
+				name: data.name,
+				picture: data.picture,
+				signal: data.signal,
+				receiveingCall: true,
+			});
+		});
+		socket.on('end call', () => {
+			setShow(false);
+			setCall({ ...call, callEnded: true, receiveingCall: false });
+			myVideo.current.srcObject = null;
+			if (callAccepted) {
+				connectionRef?.current?.destroy();
+			}
+		});
+	}, []);
+	//--call user funcion
+	const callUser = () => {
+		enableMedia();
+		setCall({
+			...call,
+			name: getConversationName(user, activeConversation.users),
+			picture: getConversationPicture(user, activeConversation.users),
+		});
+		const peer = new Peer({
+			initiator: true,
+			trickle: false,
+			stream: stream,
+		});
+		peer.on('signal', (data) => {
+			socket.emit('call user', {
+				userToCall: getConversationId(user, activeConversation.users),
+				signal: data,
+				from: socketId,
+				name: user.name,
+				picture: user.picture,
+			});
+		});
+		peer.on('stream', (stream) => {
+			userVideo.current.srcObject = stream;
+		});
+		socket.on('call accepted', (signal) => {
+			setCallAccepted(true);
+			peer.signal(signal);
+		});
+		connectionRef.current = peer;
+	};
+	//--answer call  funcion
+	const answerCall = () => {
+		enableMedia();
+		setCallAccepted(true);
+		const peer = new Peer({
+			initiator: false,
+			trickle: false,
+			stream: stream,
+		});
+		peer.on('signal', (data) => {
+			socket.emit('answer call', { signal: data, to: call.socketId });
+		});
+		peer.on('stream', (stream) => {
+			userVideo.current.srcObject = stream;
+		});
+		peer.signal(call.signal);
+		connectionRef.current = peer;
+	};
+	//---------------------------------------------------
+	// this functions uses browsers api to access camera and put that stream in stream variable
+	const setupMedia = () => {
+		navigator.mediaDevices.getUserMedia({ video: true, audio: true }).then((stream) => {
+			setStream(stream);
+		});
+	};
+
+	const enableMedia = () => {
+		myVideo.current.srcObject = stream;
+		setShow(true);
+	};
+
+	//--------------------------------------------------------
 
 	useEffect(() => {
 		//listening to reveived messages
@@ -89,18 +184,23 @@ export default function Home() {
 		<>
 			<div className='min-h-screen w-full  dark:bg-dark_bg_1  flex items-center justify-around overflow-hidden overflow-x-scroll scrollbar-hide'>
 				{/* container */}
-				<div id='installApp'></div>
+				{/* <div id='installApp'></div> */}
 				<div className='container h-screen flex '>
 					{/* sidebar */}
 					{showSidebar && <Sidebar onlineUsers={onlineUsers} typing={typing} />}
+
 					{activeConversation?._id && (
-						<ChatContainer onlineUsers={onlineUsers} typing={typing} />
+						<ChatContainer
+							onlineUsers={onlineUsers}
+							typing={typing}
+							callUser={callUser}
+						/>
 					)}
 					{!isSmallScreen && !activeConversation?._id && <WhatsappHome />}
 				</div>
 			</div>
 
-			
+			<div className={`${(show || call.signal) && !call.callEnded ? '' : 'hidden'}`}>
 				<Call
 					setCall={setCall}
 					call={call}
@@ -109,8 +209,9 @@ export default function Home() {
 					myVideo={myVideo}
 					stream={stream}
 					isSmallScreen={isSmallScreen}
+					answerCall={answerCall}
 				/>
-			
+			</div>
 		</>
 	);
 }

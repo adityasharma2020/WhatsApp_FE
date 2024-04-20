@@ -7,7 +7,7 @@ import { ChatActions } from './actions/index.js';
 import { checkOnlineStatus } from '../../utils/chat.js';
 import FilePreview from './preview/files/FilePreview.jsx';
 
-const ChatContainer = ({ onlineUsers, typing }) => {
+const ChatContainer = ({ onlineUsers, typing, callUser }) => {
 	const { activeConversation, files } = useSelector((state) => state.chat);
 	const { user } = useSelector((state) => state.user);
 
@@ -37,6 +37,7 @@ const ChatContainer = ({ onlineUsers, typing }) => {
 				{/* chat header */}
 				<ChatHeader
 					online={checkOnlineStatus(onlineUsers, user, activeConversation.users)}
+					callUser={callUser}
 				/>
 
 				{files.length > 0 ? (

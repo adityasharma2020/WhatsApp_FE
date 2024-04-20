@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { ChatIcon, CommunityIcon, DotsIcon, StoryIcon } from '../../../svg/index.js';
 import Menu from './Menu.jsx';
 
-const SidebarHeader = () => {
+const SidebarHeader = ({ setUserInfo, setNewChat }) => {
 	const { user } = useSelector((state) => state.user);
 	const [showMenu, setShowMenu] = useState(false);
 
@@ -11,7 +11,7 @@ const SidebarHeader = () => {
 		<div className='h-[50px] dark:bg-dark_bg_2 flex items-center p16 '>
 			<div className='w-full flex  items-center justify-between'>
 				{/* user image */}
-				<button className='btn'>
+				<button className='btn' onClick={() => setUserInfo(true)}>
 					<img
 						src={user?.picture}
 						alt={user?.name}
@@ -32,7 +32,7 @@ const SidebarHeader = () => {
 						</button>
 					</li>
 
-					<li className=''>
+					<li className='' >
 						<button className='btn'>
 							<ChatIcon className='dark:fill-dark_svg_1' />
 						</button>

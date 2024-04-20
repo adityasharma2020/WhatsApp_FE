@@ -4,7 +4,7 @@ import AddContactIcon from '../../../svg/AddContact';
 
 const Header = () => {
 	return (
-		<div className='absolute top-0 w-full z-50'>
+		<div className='absolute top-0 w-full z-50 cursor-pointer sm:cursor-move'>
 			{/* header container */}
 			<div className='p-1 flex items-center justify-between'>
 				{/* return button */}
