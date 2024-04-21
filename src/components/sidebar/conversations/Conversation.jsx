@@ -19,15 +19,13 @@ const Conversation = ({ convo, online, typing }) => {
 	const socket = useContext(SocketContext);
 	const values = {
 		receiver_id: getConversationId(user, convo?.users),
+		isGroup: convo.isGroup ? convo._id : false,
 		token,
 	};
 	const openConversation = async () => {
-	
 		let newConvo = await dispath(open_create_conversation(values));
 		socket.emit('join conversation', newConvo?.payload?._id);
 	};
-
-	
 
 	return (
 		<li

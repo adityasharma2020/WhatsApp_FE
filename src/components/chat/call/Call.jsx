@@ -14,6 +14,7 @@ const Call = ({
 	stream,
 	answerCall,
 	isSmallScreen,
+	endCall,
 }) => {
 	const { receiveingCall, callEnded, name } = call;
 	const [showActions, setShowActions] = useState(false);
@@ -45,7 +46,7 @@ const Call = ({
 							{/* call area */}
 							<CallArea name={name} />
 							{/* call actions */}
-							{showActions && <CallActions />}
+							{showActions && <CallActions endCall={endCall} />}
 						</div>
 
 						{/*------- VIDEO STREAMS-------- */}
@@ -83,7 +84,7 @@ const Call = ({
 			</Draggable>
 
 			{receiveingCall && !callAccepted ? (
-				<Ringing call={call} setCall={setCall} answerCall={answerCall} />
+				<Ringing call={call} setCall={setCall} answerCall={answerCall} endCall={endCall} />
 			) : null}
 		</div>
 	);

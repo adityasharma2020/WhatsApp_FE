@@ -4,7 +4,7 @@ import SpeakerIcon from '../../../svg/Speaker';
 import VideoDialIcon from '../../../svg/VideoDial';
 import DialIcon from '../../../svg/Dial';
 
-const CallActions = () => {
+const CallActions = ({ endCall }) => {
 	return (
 		<div className='h-22 w-full absolute bottom-0 z-40 px-1 openToolsAnimation'>
 			{/* container */}
@@ -31,7 +31,7 @@ const CallActions = () => {
 							<MuteIcon className='fill-white w-7' />
 						</button>
 					</li>
-					<li>
+					<li onClick={endCall}>
 						<button className='btn_secondary bg-red-600 p-1 '>
 							<CallIcon className='fill-white ' />
 						</button>

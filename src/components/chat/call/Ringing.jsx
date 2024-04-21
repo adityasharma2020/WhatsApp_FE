@@ -4,7 +4,7 @@ import ValidIcon from '../../../svg/Valid';
 import { BsCheck } from 'react-icons/bs';
 import Draggable from 'react-draggable';
 
-const Ringing = ({ call, setCall, answerCall }) => {
+const Ringing = ({ call, setCall, answerCall, endCall }) => {
 	const { receiveingCall, callEnded, picture, name } = call;
 	const [timer, setTimer] = useState(0);
 
@@ -48,7 +48,7 @@ const Ringing = ({ call, setCall, answerCall }) => {
 
 					{/* call actions */}
 					<ul className='flex items-center gap-x-2'>
-						<li>
+						<li onClick={endCall}>
 							<button className='w-8 h-8 flex items-center justify-center rounded-full bg-red-500'>
 								<CloseIcon className='fill-white w-5' />
 							</button>

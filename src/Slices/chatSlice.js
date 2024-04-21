@@ -34,12 +34,13 @@ export const getConversations = createAsyncThunk(
 export const open_create_conversation = createAsyncThunk(
 	'conversation/open_create',
 	async (values, { rejectWithValue }) => {
-		const { token, receiver_id } = values;
+		const { token, receiver_id, isGroup } = values;
 		try {
 			const { data } = await axios.post(
 				`${CONVERSATION_ENDPOINT}`,
 				{
 					receiver_id,
+					isGroup,
 				},
 				{
 					headers: {
