@@ -26,9 +26,7 @@ function App() {
 		socket.on('receiveMessage', (msg) => {});
 	});
 
-	const sendMsg = () => {
-		socket.emit('sendMessage', 'hello from client to server');
-	};
+	
 
 	return (
 		<div className='dark  '>

@@ -2,7 +2,7 @@ import React from 'react';
 import { ArrowIcon, CallIcon, MuteIcon } from '../../../svg';
 import SpeakerIcon from '../../../svg/Speaker';
 import VideoDialIcon from '../../../svg/VideoDial';
-import DialIcon from '../../../svg/Dial';
+
 
 const CallActions = ({ endCall }) => {
 	return (

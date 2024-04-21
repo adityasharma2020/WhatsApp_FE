@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { CallIcon, DotsIcon, ReturnIcon, SearchLargeIcon, VideoCallIcon } from '../../../svg';
+import { DotsIcon, ReturnIcon, SearchLargeIcon, VideoCallIcon } from '../../../svg';
 import { capitalize } from '../../../utils/string';
 import { getConversationName, getConversationPicture } from '../../../utils/chat';
 import { clearConversation } from '../../../Slices/chatSlice';
@@ -9,7 +9,7 @@ import DialIcon from '../../../svg/Dial';
 const ChatHeader = ({ online, callUser }) => {
 	const { activeConversation } = useSelector((state) => state.chat);
 	const { user } = useSelector((state) => state.user);
-	const { name, picture } = activeConversation;
+
 	const dispatch = useDispatch();
 
 	return (
@@ -54,20 +54,23 @@ const ChatHeader = ({ online, callUser }) => {
 
 				{/* Right */}
 				<ul className='flex items-center gap-x-2.5'>
-					{1 == 1 ? (
-						<li onClick={() => callUser()}>
-							<button className='btn'>
-								<VideoCallIcon />
-							</button>
-						</li>
-					) : null}
-					{1 == 1 ? (
-						<li>
-							<button className='btn'>
-								<DialIcon  />
-							</button>
-						</li>
-					) : null}
+					<li
+						onClick={() => {
+							if (!online) return;
+							callUser();
+						}}
+					>
+						<button className='btn'>
+							<VideoCallIcon />
+						</button>
+					</li>
+
+					<li>
+						<button className='btn'>
+							<DialIcon />
+						</button>
+					</li>
+
 					<li>
 						<button className='btn'>
 							<SearchLargeIcon className='dark:fill-dark_svg_1' />

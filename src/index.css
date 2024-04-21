@@ -75,11 +75,11 @@
 }
 
 .largeVideoCall {
-	@apply absolute top-0 bottom-0 left-0 right-0 z-20 object-cover h-full bg-red-400/60 cursor-pointer;
+	@apply absolute top-0 bottom-0 left-0 right-0 z-20 object-cover h-full  cursor-pointer;
 }
 
 .smallVideoCall {
-	@apply w-28 h-32 object-cover absolute bottom-4 right-2 z-30 bg-blue-500/60 cursor-pointer rounded-lg;
+	@apply w-28 h-32 object-cover absolute bottom-4 right-2 z-30 cursor-pointer rounded-lg;
 }
 
 .moveVideoCall{

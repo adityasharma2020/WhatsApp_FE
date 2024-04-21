@@ -6,7 +6,7 @@ import { WhatsappHome } from '../components/chat/welcome';
 import { ChatContainer } from '../components/chat';
 import SocketContext from '../context/SocketContext';
 import Call from '../components/chat/call/Call';
-import Peer from 'simple-peer';
+
 
 
 const callData = {
@@ -32,10 +32,7 @@ export default function Home() {
 	const [callAccepted, setCallAccepted] = useState(false);
 	const [stream, setStream] = useState();
 
-	const [zgVar, setZgVar] = useState(undefined);
-	const [localStream, setlocalStream] = useState(undefined);
 
-	const { receiveingCall, callEnded, socketId } = call;
 	const myVideo = useRef();
 	const userVideo = useRef();
 	const connectionRef = useRef();
@@ -60,7 +57,7 @@ export default function Home() {
 		return () => {
 			window.removeEventListener('resize', handleResize);
 		};
-	}, [user]);
+	}, [socket, user]);
 
 	// ------------------------Calling ------------------------
 	useEffect(() => {
@@ -89,7 +86,7 @@ export default function Home() {
 				connectionRef?.current?.destroy();
 			}
 		});
-	}, []);
+	}, [call, callAccepted, socket]);
 	//--call user funcion
 	const callUser = () => {
 	// 	enableMedia();
@@ -208,7 +205,7 @@ export default function Home() {
 		socket.on('stop typing', () => {
 			setTyping(false);
 		});
-	}, [user]);
+	}, [dispatch, socket, user]);
 
 	//--------------get conversations-------------------------
 	useEffect(() => {

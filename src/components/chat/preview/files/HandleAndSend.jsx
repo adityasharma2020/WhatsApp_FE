@@ -12,7 +12,7 @@ const HandleAndSend = ({ activeIndex, setActiveIndex, message }) => {
 	const { files, activeConversation } = useSelector((state) => state.chat);
 	const { user } = useSelector((state) => state.user);
 	const { token } = user;
-	const [numberOfFiles, setNumberOfFiles] = useState(files.length);
+	const [numberOfFiles] = useState(files.length);
 	const [loading, setLoading] = useState(false);
 	const dispatch = useDispatch();
 	const socket = useContext(SocketContext);

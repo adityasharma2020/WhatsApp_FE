@@ -1,5 +1,3 @@
-import { useState } from 'react';
-import DownloadIcon from '../../../svg/Download';
 
 export default function FileImageVideo({ url, type }) {
 	return (

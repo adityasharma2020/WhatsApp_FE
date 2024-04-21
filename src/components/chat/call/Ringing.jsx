@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { CloseIcon } from '../../../svg';
-import ValidIcon from '../../../svg/Valid';
+
 import { BsCheck } from 'react-icons/bs';
 import Draggable from 'react-draggable';
 
 const Ringing = ({ call, setCall, answerCall, endCall }) => {
-	const { receiveingCall, callEnded, picture, name } = call;
+	const {  picture, name } = call;
 	const [timer, setTimer] = useState(0);
 
 	let interval;
+	// eslint-disable-next-line react-hooks/exhaustive-deps
 	const handleTimer = () => {
 		interval = setInterval(() => {
 			setTimer((prev) => prev + 1);
@@ -23,7 +24,7 @@ const Ringing = ({ call, setCall, answerCall, endCall }) => {
 			setCall({ ...call, receiveingCall: false });
 		}
 		return () => clearInterval(interval);
-	}, [timer]);
+	}, [call, handleTimer, interval, setCall, timer]);
 
 	return (
 		<Draggable>

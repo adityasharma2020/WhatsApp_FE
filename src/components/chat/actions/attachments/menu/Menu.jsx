@@ -2,8 +2,6 @@ import React from 'react';
 import {
 	CameraIcon,
 	ContactIcon,
-	DocumentIcon,
-	PhotoIcon,
 	PollIcon,
 	StickerIcon,
 } from '../../../../../svg';
