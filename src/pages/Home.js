@@ -7,8 +7,7 @@ import { ChatContainer } from '../components/chat';
 import SocketContext from '../context/SocketContext';
 import Call from '../components/chat/call/Call';
 import Peer from 'simple-peer';
-import { getConversationId, getConversationName, getConversationPicture } from '../utils/chat';
-import { ZegoExpressEngine } from 'zego-express-engine-webrtc';
+
 
 const callData = {
 	socketId: '',
@@ -92,7 +91,7 @@ export default function Home() {
 		});
 	}, []);
 	//--call user funcion
-	// const callUser = () => {
+	const callUser = () => {
 	// 	enableMedia();
 	// 	setCall({
 	// 		...call,
@@ -121,7 +120,7 @@ export default function Home() {
 				setCallAccepted(true);
 			});
 	// 	// 	connectionRef.current = peer;
-	// };
+	};
 
 	// const startCall = async () => {
 	// 	import('zego-express-engine-webrtc').then(async ({ ZegoExpressEngine }) => {
