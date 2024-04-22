@@ -1,8 +1,10 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import React from 'react';
 import { CloseIcon } from '../../../svg';
+import { useSelector } from 'react-redux';
 
 const ImageDetail = ({ detailPic, setDetailPic }) => {
+	const {user} = useSelector((state)=>state.user);
 	return (
 		<AnimatePresence>
 			{detailPic && (
@@ -18,7 +20,7 @@ const ImageDetail = ({ detailPic, setDetailPic }) => {
 					<div className='w-full h-[60px] flex items-center px-7 justify-start'>
 						<div className='w-[40px] h-[40px] rounded-full overflow-hidden'>
 							<img
-								src='https://imgs.search.brave.com/jLTwrBSRPcoyhBJs1uPbMl500isS1N2O0JlI3BLUQoY/rs:fit:500:0:0/g:ce/aHR0cHM6Ly93YWxs/cGFwZXJzLmNvbS9p/bWFnZXMvZmVhdHVy/ZWQvY29vbC1wcm9m/aWxlLXBpY3R1cmUt/ODdoNDZnY29iamw1/ZTR4dS5qcGc'
+								src={user?.picture}
 								alt=''
 							/>
 						</div>
@@ -38,7 +40,7 @@ const ImageDetail = ({ detailPic, setDetailPic }) => {
 							className='w-[585px] mt-2 origin-bottom overflow-hidden'
 						>
 							<img
-								src='https://imgs.search.brave.com/jLTwrBSRPcoyhBJs1uPbMl500isS1N2O0JlI3BLUQoY/rs:fit:500:0:0/g:ce/aHR0cHM6Ly93YWxs/cGFwZXJzLmNvbS9p/bWFnZXMvZmVhdHVy/ZWQvY29vbC1wcm9m/aWxlLXBpY3R1cmUt/ODdoNDZnY29iamw1/ZTR4dS5qcGc'
+								src={user.picture}
 								alt=''
 							/>
 						</motion.div>

@@ -9,22 +9,31 @@ const Call = ({
 	call,
 	setCall,
 	callAccepted,
-	userVideo,
 	myVideo,
 	stream,
+	userVideo,
 	answerCall,
-	isSmallScreen,
+	show,
+	setShow,
+	callNotRespond,
+	toggleAudioTrack,
+	toggleVideoTrack,
 	endCall,
+	handlePictureInPicture,
+	callRejected
 }) => {
-	const { receiveingCall, callEnded, name } = call;
 	const [showActions, setShowActions] = useState(false);
+	const { gettingCall, callEnded, name } = call;
+	const [toggleAudio, setToggleAudio] = useState(false);
+	const [toggleVideo, setToggleVideo] = useState(false);
+	const [togglePictureInPic, setTogglePictureInPic] = useState(false);
 
 	return (
 		<div>
-			<Draggable disabled={isSmallScreen}>
+			<Draggable>
 				<div
 					className={`fixed top-0 left-0 sm:top-16 z-10  sm:left-1/3 -translate-x-1/2 -translate-y-1/2 h-full w-full sm:w-[350px] sm:h-[550px] rounded-2xl overflow-hidden callbg shadow-2xl  ${
-						receiveingCall && !callAccepted ? 'hidden' : ''
+						gettingCall && !callAccepted ? 'hidden' : ''
 					}`}
 				>
 					{/* container */}
@@ -46,7 +55,20 @@ const Call = ({
 							{/* call area */}
 							<CallArea name={name} />
 							{/* call actions */}
-							{showActions && <CallActions endCall={endCall} />}
+							{showActions && (
+								<CallActions
+									toggleAudioTrack={toggleAudioTrack}
+									toggleVideoTrack={toggleVideoTrack}
+									toggleAudio={toggleAudio}
+									setToggleAudio={setToggleAudio}
+									toggleVideo={toggleVideo}
+									setToggleVideo={setToggleVideo}
+									setTogglePictureInPic={setTogglePictureInPic}
+									togglePictureInPic={togglePictureInPic}
+									endCall={endCall}
+									handlePictureInPicture={handlePictureInPicture}
+								/>
+							)}
 						</div>
 
 						{/*------- VIDEO STREAMS-------- */}
@@ -83,9 +105,19 @@ const Call = ({
 				</div>
 			</Draggable>
 
-			{receiveingCall && !callAccepted ? (
-				<Ringing call={call} setCall={setCall} answerCall={answerCall} endCall={endCall} />
-			) : null}
+			{gettingCall && !callAccepted ? (
+				<Ringing
+					answerCall={answerCall}
+					call={call}
+					setCall={setCall}
+					callAccepted={callAccepted}
+					setShow={setShow}
+					callNotRespond={callNotRespond}
+					callRejected={callRejected}
+				/>
+			) : (
+				<></>
+			)}
 		</div>
 	);
 };

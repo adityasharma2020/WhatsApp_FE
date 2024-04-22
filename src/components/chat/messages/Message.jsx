@@ -1,12 +1,12 @@
 import moment from 'moment';
 import React from 'react';
 import TriangleIcon from '../../../svg/triangle';
-
-import { useSelector } from 'react-redux';
 import MessageStatus from './MessageStatus';
 
+
 const Message = ({ message, me }) => {
-	const { user } = useSelector((state) => state.user);
+
+	
 
 	return (
 		<div className={`w-full flex mt-2 space-x-3 max-w-xs ${me ? 'ml-auto justify-end' : ''}`}>
@@ -23,9 +23,9 @@ const Message = ({ message, me }) => {
 					</p>
 
 					<div className='flex justify-center items-center'>
-						{message.sender._id === user._id && (
+						{me && (
 							<div className=' absolute right-10 bottom-1 float-right'>
-								<MessageStatus messageStatus={message.messageStatus} />
+								<MessageStatus messageStatus={message.seen} />
 							</div>
 						)}
 						{/* message date */}

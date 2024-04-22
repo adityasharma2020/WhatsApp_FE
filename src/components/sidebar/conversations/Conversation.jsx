@@ -43,7 +43,7 @@ const Conversation = ({ convo, online, typing }) => {
 					{/* conversation user picture */}
 					<div
 						className={`relative min-w-[50px] max-w-[50px] h-[50px] rounded-full overflow-hidden ${
-							online ? 'online' : ''
+							online ? 'online' : 'offline'
 						} `}
 					>
 						<img

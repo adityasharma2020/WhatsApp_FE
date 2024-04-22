@@ -110,6 +110,12 @@ export const chatSlice = createSlice({
 		clearConversation: (state) => {
 			state.activeConversation = {};
 		},
+		updateMessageSeen: (state) => {
+			state.messages = state.messages.map((message) => {
+				return { ...message, seen: true }; // Corrected syntax here
+			});
+		},
+
 		updateMessagesAndConversations: (state, action) => {
 			// Update message
 
@@ -215,6 +221,7 @@ export const {
 	removeFileFromFiles,
 	updateMessagesAndConversations,
 	clearConversation,
+	updateMessageSeen
 } = chatSlice.actions;
 
 export default chatSlice.reducer;

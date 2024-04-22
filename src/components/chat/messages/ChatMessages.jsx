@@ -5,6 +5,7 @@ import Message from './Message';
 import Typing from './Typing';
 import FileMessage from './FileMessage';
 
+
 const ChatMessages = ({ typing }) => {
 	const { messages, activeConversation,files } = useSelector((state) => state.chat);
 	const { user } = useSelector((state) => state.user);
@@ -14,6 +15,8 @@ const ChatMessages = ({ typing }) => {
 		// when a new message added we make scroll to the end div that we added in last.
 		endRef.current.scrollIntoView({ behaviour: 'smooth' });
 	}, [messages, typing,files]);
+
+
 
 	return (
 		<div

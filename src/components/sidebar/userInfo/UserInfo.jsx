@@ -4,8 +4,10 @@ import { BiArrowBack } from 'react-icons/bi';
 import { RiPencilFill } from 'react-icons/ri';
 import { IoCameraSharp } from 'react-icons/io5';
 import MenuProfile from './MenuProfile';
+import { useSelector } from 'react-redux';
 const UserInfo = ({ userInfo, setUserInfo, setDetailPic }) => {
 	const [menu, setMenu] = useState(false);
+	const { user } = useSelector((state) => state.user);
 	const [x, setX] = useState();
 	const [y, setY] = useState();
 	const fotoProfile = (e) => {
@@ -74,10 +76,7 @@ const UserInfo = ({ userInfo, setUserInfo, setDetailPic }) => {
 							className='w-[205px] rounded-full overflow-hidden group relative cursor-pointer'
 							onClick={(e) => fotoProfile(e)}
 						>
-							<img
-								src='https://imgs.search.brave.com/jLTwrBSRPcoyhBJs1uPbMl500isS1N2O0JlI3BLUQoY/rs:fit:500:0:0/g:ce/aHR0cHM6Ly93YWxs/cGFwZXJzLmNvbS9p/bWFnZXMvZmVhdHVy/ZWQvY29vbC1wcm9m/aWxlLXBpY3R1cmUt/ODdoNDZnY29iamw1/ZTR4dS5qcGc'
-								alt=''
-							/>
+							<img src={user.picture} alt='' />
 							<div className='w-full h-full absolute top-0 z-50 bg-slate-900/60 opacity-0 group-hover:opacity-100 transition-all ease-in-out duration-200 flex flex-col justify-center items-center'>
 								<IoCameraSharp className='text-white text-2xl' />
 								<h1 className='text-center text-white text-xs w-1/2'>
@@ -99,7 +98,7 @@ const UserInfo = ({ userInfo, setUserInfo, setDetailPic }) => {
 					>
 						<h3 className='text-line text-sm dark:text-green_2'>Your Name</h3>
 						<div className='flex items-center'>
-							<h1 className='text-xl text-white'>Aditya Sharma</h1>
+							<h1 className='text-xl text-white'>{user.name}</h1>
 							<RiPencilFill className='text-icon ml-auto text-2xl dark:fill-dark_svg_1 cursor-pointer' />
 						</div>
 						<p className='text-icon text-white text-sm'>
@@ -117,14 +116,13 @@ const UserInfo = ({ userInfo, setUserInfo, setDetailPic }) => {
 								delay: 0.2,
 							},
 						}}
-						className='px-7 flex flex-col gap-6 mt-9'
+						className='px-7 flex flex-col gap-1 mt-5'
 					>
 						<h3 className='text-line text-sm dark:text-green_2'>Info</h3>
-						<div className='flex items-center gap-2'>
-							<h1 className='text-xs text-white'>
-								kyun darein zindagi mein kya hoga..... kuch na hoga to tajurba hoga
-							</h1>
+						<div className='flex items-start flex-col gap-2'>
 							<RiPencilFill className='text-icon ml-auto text-2xl dark:fill-dark_svg_1 cursor-pointer' />
+							<h1 className='text-sm text-white'>Email: {user.email}</h1>
+							<h1 className='text-xs text-white'>Status: {user.status}</h1>
 						</div>
 					</motion.div>
 				</motion.div>

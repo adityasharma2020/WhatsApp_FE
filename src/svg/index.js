@@ -27,6 +27,7 @@ import MuteIcon from './Mute';
 import NoVideoIcon from './NoVideo';
 import Loader from './Loader';
 import VideoCallIcon from './VideoCall';
+import PictureInPictureIcon from './pictureInPicture';
 export {
 	CommunityIcon,
 	StoryIcon,
@@ -57,4 +58,5 @@ export {
 	NoVideoIcon,
 	Loader,
 	VideoCallIcon,
+	PictureInPictureIcon,
 };

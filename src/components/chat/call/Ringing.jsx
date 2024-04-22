@@ -4,10 +4,17 @@ import { CloseIcon } from '../../../svg';
 import { BsCheck } from 'react-icons/bs';
 import Draggable from 'react-draggable';
 
-const Ringing = ({ call, setCall, answerCall, endCall }) => {
-	const {  picture, name } = call;
+const Ringing = ({
+	call,
+	setCall,
+	callNotRespond,
+	callRejected,
+	answerCall,
+	setShow,
+	callAccepted,
+}) => {
 	const [timer, setTimer] = useState(0);
-
+	const { name, picture } = call;
 	let interval;
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	const handleTimer = () => {
@@ -18,13 +25,17 @@ const Ringing = ({ call, setCall, answerCall, endCall }) => {
 	console.log(timer);
 
 	useEffect(() => {
-		if (timer <= 15) {
+		if (timer <= 5) {
 			handleTimer();
 		} else {
-			setCall({ ...call, receiveingCall: false });
+			setCall({ ...call, gettingCall: false });
+			setShow(false);
+			if (!callAccepted) {
+				callNotRespond();
+			}
 		}
 		return () => clearInterval(interval);
-	}, [call, handleTimer, interval, setCall, timer]);
+	}, [call, callAccepted, callNotRespond, handleTimer, interval, setCall, setShow, timer]);
 
 	return (
 		<Draggable>
@@ -49,7 +60,11 @@ const Ringing = ({ call, setCall, answerCall, endCall }) => {
 
 					{/* call actions */}
 					<ul className='flex items-center gap-x-2'>
-						<li onClick={endCall}>
+						<li
+							onClick={() => {
+								callRejected();
+							}}
+						>
 							<button className='w-8 h-8 flex items-center justify-center rounded-full bg-red-500'>
 								<CloseIcon className='fill-white w-5' />
 							</button>

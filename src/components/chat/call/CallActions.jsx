@@ -1,10 +1,19 @@
 import React from 'react';
-import { ArrowIcon, CallIcon, MuteIcon } from '../../../svg';
-import SpeakerIcon from '../../../svg/Speaker';
+import { ArrowIcon, CallIcon, MuteIcon, PictureInPictureIcon } from '../../../svg';
 import VideoDialIcon from '../../../svg/VideoDial';
 
-
-const CallActions = ({ endCall }) => {
+const CallActions = ({
+	toggleAudioTrack,
+	toggleVideoTrack,
+	toggleVideo,
+	setToggleVideo,
+	toggleAudio,
+	setToggleAudio,
+	endCall,
+	handlePictureInPicture,
+	setTogglePictureInPic,
+	togglePictureInPic,
+}) => {
 	return (
 		<div className='h-22 w-full absolute bottom-0 z-40 px-1 openToolsAnimation'>
 			{/* container */}
@@ -16,22 +25,50 @@ const CallActions = ({ endCall }) => {
 
 				{/* Actions */}
 				<ul className='flex items-center justify-between'>
-					<li>
-						<button className='btn_secondary'>
-							<SpeakerIcon className='fill-white w-7' />
+					<li
+						onClick={() => {
+							setTogglePictureInPic((prev) => !prev);
+							handlePictureInPicture(togglePictureInPic);
+						}}
+					>
+						<button
+							className={`${
+								togglePictureInPic ? 'bg-green_4 ' : 'bg-red-400'
+							} btn_secondary`}
+						>
+							<PictureInPictureIcon />
 						</button>
 					</li>
-					<li>
-						<button className='btn_secondary'>
-							<VideoDialIcon className='fill-white w-14 mt-2.5' />
+
+					<li
+						onClick={() => {
+							toggleVideoTrack();
+							setToggleVideo((prev) => !prev);
+						}}
+					>
+						<button
+							className={`btn_secondary ${toggleVideo ? 'bg-red-400' : 'bg-green_4'}`}
+						>
+							<VideoDialIcon className='fill-white w-14 mt-2.5 h-10' />
 						</button>
 					</li>
-					<li>
-						<button className='btn_secondary'>
+					<li
+						onClick={() => {
+							toggleAudioTrack();
+							setToggleAudio((prev) => !prev);
+						}}
+					>
+						<button
+							className={`btn_secondary ${toggleAudio ? 'bg-red-400' : 'bg-green_4'}`}
+						>
 							<MuteIcon className='fill-white w-7' />
 						</button>
 					</li>
-					<li onClick={endCall}>
+					<li
+						onClick={() => {
+							endCall();
+						}}
+					>
 						<button className='btn_secondary bg-red-600 p-1 '>
 							<CallIcon className='fill-white ' />
 						</button>

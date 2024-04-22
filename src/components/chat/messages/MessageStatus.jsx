@@ -4,8 +4,8 @@ const MessageStatus = ({ messageStatus }) => {
 	return (
 		<div>
 			{messageStatus === 'sent' && <BsCheck className='text-lg' />}
-			{messageStatus === 'delivered' && <BsCheckAll className='text-lg' />}
-			{messageStatus === 'read' && <BsCheckAll className='text-lg text-blue-400' />}
+			{messageStatus === false && <BsCheckAll className='text-lg' />}
+			{messageStatus === true && <BsCheckAll className='text-lg text-blue-400' />}
 		</div>
 	);
 };

@@ -6,7 +6,7 @@ import { checkOnlineStatus } from '../../../utils/chat';
 const Conversations = ({ onlineUsers, typing }) => {
 	const { conversations } = useSelector((state) => state.chat);
 	const { user } = useSelector((state) => state.user);
-	console.log(conversations);
+	
 	return (
 		<div className='convos scrollbar '>
 			<ul>

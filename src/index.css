@@ -63,6 +63,10 @@
 	border: 2px solid #00a884;
 }
 
+.offline {
+	border:  1px solid #a8080072;
+}
+
 .hview {
 	height: calc(100vh - 300px);
 	padding: 8px 0;
@@ -79,7 +83,7 @@
 }
 
 .smallVideoCall {
-	@apply w-28 h-32 object-cover absolute bottom-4 right-2 z-30 cursor-pointer rounded-lg;
+	@apply w-28 h-32 object-cover absolute bottom-4 right-2 z-30   cursor-pointer rounded-lg;
 }
 
 .moveVideoCall{

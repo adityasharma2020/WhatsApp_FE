@@ -5,6 +5,7 @@ import { capitalize } from '../../../utils/string';
 import { getConversationName, getConversationPicture } from '../../../utils/chat';
 import { clearConversation } from '../../../Slices/chatSlice';
 import DialIcon from '../../../svg/Dial';
+import toast from 'react-hot-toast';
 
 const ChatHeader = ({ online, callUser }) => {
 	const { activeConversation } = useSelector((state) => state.chat);
@@ -31,7 +32,7 @@ const ChatHeader = ({ online, callUser }) => {
 							<img
 								src={getConversationPicture(user, activeConversation.users)}
 								alt={`ProfilePic`}
-								className='w-full h-full rounded-full object-cover '
+								className={`w-full h-full rounded-full object-cover border-2 ${online ? "border-green_1":"border-red-300"}`}
 							/>
 						</button>
 
@@ -56,7 +57,11 @@ const ChatHeader = ({ online, callUser }) => {
 				<ul className='flex items-center gap-x-2.5'>
 					<li
 						onClick={() => {
-							if (!online) return;
+							if (!online) {
+								toast.error('user is not online');
+								return;
+							}
+
 							callUser();
 						}}
 					>
@@ -65,7 +70,16 @@ const ChatHeader = ({ online, callUser }) => {
 						</button>
 					</li>
 
-					<li>
+					<li
+						onClick={() => {
+							if (!online) {
+								toast.error('user is not online');
+								return;
+							}
+
+							callUser();
+						}}
+					>
 						<button className='btn'>
 							<DialIcon />
 						</button>
