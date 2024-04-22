@@ -10,6 +10,7 @@ const Contact = ({ contact }) => {
 	const socket = useContext(SocketContext);
 	const values = {
 		receiver_id: contact._id,
+		isGroup:false,
 		token,
 	};
 	const openConversation = async () => {
