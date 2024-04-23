@@ -64,7 +64,7 @@
 }
 
 .offline {
-	border:  1px solid #a8080072;
+	border:  2px solid #a8080072;
 }
 
 .hview {
@@ -150,6 +150,7 @@
 	border-radius: 20px; /* Roundness of the bar */
 	border: 3px solid #555; /* Border style */
 }
+
 
 /* animations */
 

@@ -24,7 +24,7 @@ const ImageDetail = ({ detailPic, setDetailPic }) => {
 								alt=''
 							/>
 						</div>
-						<h1 className='text-white ml-4'>9414871149</h1>
+						<h1 className='text-white ml-4'>{user.mobile}</h1>
 						<button className='text-icon ml-auto' onClick={() => setDetailPic(false)}>
 							<CloseIcon className='dark:fill-dark_svg_2 mr-0.5' />
 						</button>

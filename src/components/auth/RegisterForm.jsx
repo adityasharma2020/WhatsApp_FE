@@ -19,7 +19,7 @@ export default function RegisterForm() {
 	const { status, error } = useSelector((state) => state.user);
 	const [picture, setPicture] = useState(); // here we put the image that we upload to cloudinary
 	const [readablePicture, setReadablePicture] = useState(''); //this is the file that we read from user
-	
+
 	const {
 		handleSubmit,
 		register,
@@ -28,6 +28,7 @@ export default function RegisterForm() {
 
 	// -----------------submit handler----------------------------
 	const onSubmit = async (data) => {
+	
 		dispatch(changeStatus('loading'));
 		if (picture) {
 			//upload to cloudinary and then register user
@@ -87,6 +88,14 @@ export default function RegisterForm() {
 						placeholder='Email address'
 						register={register}
 						error={errors?.email?.message}
+						
+					/>
+					<AuthInput
+						name='mobile'
+						type='number'
+						placeholder='Mobile number'
+						register={register}
+						error={errors?.mobile?.message}
 					/>
 
 					<AuthInput

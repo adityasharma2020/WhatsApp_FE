@@ -10,7 +10,7 @@ const InstallPWAButton = () => {
 			event.preventDefault();
 			// Check if the user has already installed the app
 			if (window.matchMedia('(display-mode: standalone)').matches) {
-				console.log('App is already installed');
+			
 				// App is installed, no need to show the install prompt
 				setIsVisible(false);
 			} else {
@@ -30,11 +30,7 @@ const InstallPWAButton = () => {
 		if (installPromptEvent) {
 			installPromptEvent.prompt();
 			installPromptEvent.userChoice.then((choiceResult) => {
-				if (choiceResult.outcome === 'accepted') {
-					console.log('User accepted the install prompt');
-				} else {
-					console.log('User dismissed the install prompt');
-				}
+			
 				setInstallPromptEvent(null);
 				setIsVisible(false); // Hide after interaction
 			});

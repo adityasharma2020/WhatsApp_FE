@@ -22,10 +22,10 @@ const Ringing = ({
 			setTimer((prev) => prev + 1);
 		}, 1000);
 	};
-	console.log(timer);
+
 
 	useEffect(() => {
-		if (timer <= 5) {
+		if (timer <= 60) {
 			handleTimer();
 		} else {
 			setCall({ ...call, gettingCall: false });

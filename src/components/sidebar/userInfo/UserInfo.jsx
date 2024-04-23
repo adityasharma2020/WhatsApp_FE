@@ -14,7 +14,7 @@ const UserInfo = ({ userInfo, setUserInfo, setDetailPic }) => {
 		setX(e.pageX);
 		setY(e.pageY);
 		setMenu(!menu);
-		console.log(menu);
+
 	};
 	return (
 		<AnimatePresence>

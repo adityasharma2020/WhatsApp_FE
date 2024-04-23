@@ -28,7 +28,7 @@ const callData = {
 export default function Home() {
 	const dispatch = useDispatch();
 	const { user } = useSelector((state) => state.user);
-	const { activeConversation,messages } = useSelector((state) => state.chat);
+	const { activeConversation, messages } = useSelector((state) => state.chat);
 	const socket = useContext(SocketContext);
 	const [onlineUsers, setOnlineUsers] = useState([]);
 	const [typing, setTyping] = useState(null);
@@ -89,7 +89,7 @@ export default function Home() {
 		});
 
 		socket.on('incoming call', (data) => {
-			console.log('dattaaaaaaaaaaaa:::', data);
+			
 			if (callAccepted) return;
 			setCall((prev) => ({
 				...prev,
@@ -103,7 +103,7 @@ export default function Home() {
 		});
 
 		socket.on('not responded', async () => {
-			console.log('not respondeddddddd');
+		
 
 			if (stream) {
 				// Stop media devices
@@ -124,7 +124,7 @@ export default function Home() {
 		});
 
 		socket.on('call rejected', async () => {
-			console.log('not respondeddddddd');
+		
 			if (connectionRef.current) {
 				connectionRef.current.destroy();
 			}
@@ -150,7 +150,7 @@ export default function Home() {
 
 		socket.on('end call', ({ to }) => {
 			setShow(false);
-			console.log('clinet end call socket to id :::>>', to);
+		
 			setCall((prev) => ({
 				...prev,
 				callEnded: false,
@@ -177,17 +177,13 @@ export default function Home() {
 			}
 			// connectionRef.current.destroy();
 			setCallKey((prevKey) => prevKey + 1);
-			console.log('SOCkET ID CLIENT: ', call.ourSocketId);
+		
 		});
 
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
-	useEffect(() => {
-		console.log('Updated SOCKET ID our CLIENT:>>>>>>>>>>>>>', call.ourSocketId);
-		console.log('Updated SOCKET ID receiver CLIENT:>>>>>>>>>>>>>', call.receiverSocketId);
-		console.log('Updated CALL:>>>>>>>>>>>>>', call);
-	}, [call]);
+
 
 	const setupMedia = () => {
 		navigator.mediaDevices
@@ -196,7 +192,7 @@ export default function Home() {
 				setStream(stream);
 			})
 			.catch((error) => {
-				console.log('Error accessing media devices:', error);
+				
 			});
 	};
 
@@ -277,7 +273,7 @@ export default function Home() {
 			toast.error('Error:', error);
 		}
 	};
-	console.log('userVideo ref:', userVideo.current);
+	
 
 	// -----------------------------------
 	const endCall = () => {
@@ -309,7 +305,7 @@ export default function Home() {
 	};
 
 	const callNotRespond = () => {
-		console.log('caller side calldata.socketId:', call.receiverSocketId);
+		
 		socket.emit('not responded', { to: call.receiverSocketId });
 	};
 
@@ -327,7 +323,7 @@ export default function Home() {
 			if (audioTracks.length > 0) {
 				const audioTrack = audioTracks[0];
 				audioTrack.enabled = !audioTrack.enabled;
-				console.log(`Audio track ${audioTrack.enabled ? 'enabled' : 'disabled'}`);
+				
 			} else {
 				console.log('No audio track found in the stream');
 			}
@@ -360,17 +356,12 @@ export default function Home() {
 			dispatch(updateMessagesAndConversations(message));
 			console.log('receive an socket event');
 			// Check if the received message is from another user
-			if (
-				activeConversation &&
-				activeConversation.latestMessage &&
-				activeConversation.latestMessage.sender._id !== user._id
-			) {
+			if (activeConversation && activeConversation.latestMessage) {
 				socket.emit('messages seen', {
 					convo_id: activeConversation._id,
 					chatUserId: getConversationId(user, activeConversation.users),
 				});
 			}
-
 			socket.on('messages seen', ({ convo_id }) => {
 				if (activeConversation && activeConversation._id === convo_id) {
 					dispatch(updateMessageSeen());
@@ -393,8 +384,22 @@ export default function Home() {
 			socket.off('typing');
 			socket.off('stop typing');
 		};
-	}, [activeConversation, dispatch, socket,messages, user]);
+	}, [activeConversation, activeConversation.latestMessage, dispatch, socket, messages, user]);
 
+	useEffect(() => {
+		// Check if the received message is from another user
+		if (activeConversation && activeConversation.latestMessage) {
+			socket.emit('messages seen', {
+				convo_id: activeConversation._id,
+				chatUserId: getConversationId(user, activeConversation.users),
+			});
+		}
+		socket.on('messages seen', ({ convo_id }) => {
+			if (activeConversation && activeConversation._id === convo_id) {
+				dispatch(updateMessageSeen());
+			}
+		});
+	}, [activeConversation, dispatch, socket, user]);
 	//--------------get conversations-------------------------
 	useEffect(() => {
 		if (user?.token) {
@@ -477,6 +482,7 @@ export default function Home() {
 					setTotalSecInCall={setTotalSecInCall}
 					togglePictureInPic={togglePictureInPic}
 					setTogglePictureInPic={setTogglePictureInPic}
+					isSmallScreen={isSmallScreen}
 				/>
 			</div>
 		</>

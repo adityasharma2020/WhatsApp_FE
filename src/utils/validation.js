@@ -18,6 +18,9 @@ export const signUpSchema = Yup.object({
 			/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/,
 			'Password must contain atleast 6 characters, 1 uppercase, 1 lowercase, 1 number and 1 special character.'
 		),
+	mobile: Yup.string()
+		.required('Mobile number is required.')
+		.matches(/^\d{10}$/, 'Mobile number must be exactly 10 digits long.'),
 });
 
 export const signInSchema = Yup.object({

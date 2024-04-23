@@ -28,6 +28,7 @@ import NoVideoIcon from './NoVideo';
 import Loader from './Loader';
 import VideoCallIcon from './VideoCall';
 import PictureInPictureIcon from './pictureInPicture';
+import NewChatIcon from './newChat';
 export {
 	CommunityIcon,
 	StoryIcon,
@@ -59,4 +60,5 @@ export {
 	Loader,
 	VideoCallIcon,
 	PictureInPictureIcon,
+	NewChatIcon
 };

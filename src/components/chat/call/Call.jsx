@@ -8,12 +8,12 @@ import Draggable from 'react-draggable';
 const Call = ({
 	call,
 	setCall,
-	
+
 	myVideo,
 	stream,
 	userVideo,
 	answerCall,
-	show,
+	isSmallScreen,
 	setShow,
 	callNotRespond,
 	toggleAudioTrack,
@@ -24,13 +24,12 @@ const Call = ({
 	totalSecInCall,
 	setTotalSecInCall,
 	togglePictureInPic,
-	setTogglePictureInPic
+	setTogglePictureInPic,
 }) => {
 	const [showActions, setShowActions] = useState(false);
-	const { gettingCall, name,callAccepted,callEnded } = call;
+	const { gettingCall, name, callAccepted, callEnded } = call;
 	const [toggleAudio, setToggleAudio] = useState(false);
 	const [toggleVideo, setToggleVideo] = useState(false);
-	
 
 	return (
 		<div>
@@ -44,14 +43,15 @@ const Call = ({
 					<div
 						onMouseOver={() => setShowActions(true)}
 						onMouseLeave={() => setShowActions(false)}
-						onDoubleClick={() => setShowActions((prev) => !prev)}
-						onTouchStart={(e) => {
-							if (!showActions) {
-								setShowActions(true);
-							} else {
-								setShowActions(false);
-							}
-						}}
+						{...(isSmallScreen && {
+							onTouchStart: (e) => {
+								if (!showActions) {
+									setShowActions(true);
+								} else {
+									setShowActions(false);
+								}
+							},
+						})}
 					>
 						<div>
 							{/* header */}

@@ -79,7 +79,7 @@ export const sendMessage = createAsyncThunk(
 	async (values, { rejectWithValue }) => {
 		const { token, receiver_id, message, convo_id, files } = values;
 		try {
-			console.log('files::', files);
+			
 			const { data } = await axios.post(
 				`${MESSAGE_ENDPOINT}`,
 				{
@@ -97,7 +97,7 @@ export const sendMessage = createAsyncThunk(
 
 			return data;
 		} catch (error) {
-			console.log(files);
+		
 			return rejectWithValue(error?.data?.error?.message);
 		}
 	}
