@@ -73,7 +73,7 @@
 }
 
 .callbg {
-	background-image: linear-gradient(rgb(68, 126, 87), rgb(0, 0, 0)), url(./assets/bg_image.jpg);
+	background-image: linear-gradient(rgb(68, 126, 87), rgb(0, 0, 0)), url(./assets/bg_image.webp);
 	background-size: cover;
 	background-blend-mode: saturation;
 }

@@ -14,6 +14,7 @@ import Peer from 'simple-peer';
 import { getConversationId, getConversationName, getConversationPicture } from '../utils/chat';
 import toast, { Toaster } from 'react-hot-toast';
 
+
 const callData = {
 	ourSocketId: '',
 	receiverSocketId: '',
@@ -40,6 +41,8 @@ export default function Home() {
 	const [stream, setStream] = useState();
 	const [callKey, setCallKey] = useState(0);
 	const { callAccepted } = call;
+
+
 	//---------
 
 	const [show, setShow] = useState(false);
@@ -89,7 +92,6 @@ export default function Home() {
 		});
 
 		socket.on('incoming call', (data) => {
-			
 			if (callAccepted) return;
 			setCall((prev) => ({
 				...prev,
@@ -103,8 +105,6 @@ export default function Home() {
 		});
 
 		socket.on('not responded', async () => {
-		
-
 			if (stream) {
 				// Stop media devices
 				const tracks = stream.getTracks();
@@ -121,10 +121,10 @@ export default function Home() {
 				picture: '',
 				signal: '',
 			}));
+			window.location.reload(true);
 		});
 
 		socket.on('call rejected', async () => {
-		
 			if (connectionRef.current) {
 				connectionRef.current.destroy();
 			}
@@ -146,11 +146,12 @@ export default function Home() {
 				callAccepted: false,
 			});
 			setCallKey((prevKey) => prevKey + 1);
+			window.location.reload(true);
 		});
 
 		socket.on('end call', ({ to }) => {
 			setShow(false);
-		
+
 			setCall((prev) => ({
 				...prev,
 				callEnded: false,
@@ -177,13 +178,11 @@ export default function Home() {
 			}
 			// connectionRef.current.destroy();
 			setCallKey((prevKey) => prevKey + 1);
-		
+			window.location.reload(true);
 		});
 
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
-
-
 
 	const setupMedia = () => {
 		navigator.mediaDevices
@@ -191,9 +190,7 @@ export default function Home() {
 			.then((stream) => {
 				setStream(stream);
 			})
-			.catch((error) => {
-				
-			});
+			.catch((error) => {});
 	};
 
 	// -------------------calling functions----------------------
@@ -273,7 +270,6 @@ export default function Home() {
 			toast.error('Error:', error);
 		}
 	};
-	
 
 	// -----------------------------------
 	const endCall = () => {
@@ -301,12 +297,13 @@ export default function Home() {
 			connectionRef.current = null;
 		}
 		setCallKey((prevKey) => prevKey + 1);
-		// setCallEndedTrigger((prevState) => !prevState);
+		// Soft page refresh
+		window.location.reload(true);
 	};
 
 	const callNotRespond = () => {
-		
 		socket.emit('not responded', { to: call.receiverSocketId });
+		window.location.reload(true);
 	};
 
 	const callRejected = () => {
@@ -314,6 +311,7 @@ export default function Home() {
 		setCall((prev) => ({ ...prev, gettingCall: false, signal: '' }));
 		socket.emit('call rejected', { to: call.receiverSocketId });
 		setCallKey((prevKey) => prevKey + 1);
+		window.location.reload(true);
 	};
 
 	// Toggle audio track function
@@ -323,7 +321,6 @@ export default function Home() {
 			if (audioTracks.length > 0) {
 				const audioTrack = audioTracks[0];
 				audioTrack.enabled = !audioTrack.enabled;
-				
 			} else {
 				console.log('No audio track found in the stream');
 			}
