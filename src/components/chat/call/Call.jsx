@@ -43,15 +43,8 @@ const Call = ({
 					<div
 						onMouseOver={() => setShowActions(true)}
 						onMouseLeave={() => setShowActions(false)}
-						{...(isSmallScreen && {
-							onTouchStart: (e) => {
-								if (!showActions) {
-									setShowActions(true);
-								} else {
-									setShowActions(false);
-								}
-							},
-						})}
+						onDoubleClick={() => setShowActions(false)}
+						
 					>
 						<div>
 							{/* header */}
