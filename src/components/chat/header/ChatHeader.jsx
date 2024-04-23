@@ -65,8 +65,8 @@ const ChatHeader = ({ online, callUser }) => {
 							callUser();
 						}}
 					>
-						<button className='btn'>
-							<VideoCallIcon />
+						<button className='btn bg-dark_bg_3'>
+							<VideoCallIcon/>
 						</button>
 					</li>
 
@@ -80,7 +80,7 @@ const ChatHeader = ({ online, callUser }) => {
 							callUser();
 						}}
 					>
-						<button className='btn'>
+						<button className='btn bg-dark_bg_3'>
 							<DialIcon />
 						</button>
 					</li>
