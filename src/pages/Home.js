@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Sidebar } from '../components/sidebar';
 import {
 	getConversations,
-
+	updateMessageSeen,
 	updateMessagesAndConversations,
 } from '../Slices/chatSlice';
 import { WhatsappHome } from '../components/chat/welcome';
@@ -15,9 +15,11 @@ import { getConversationId, getConversationName, getConversationPicture } from '
 import toast, { Toaster } from 'react-hot-toast';
 
 const callData = {
-	socketId: '',
+	ourSocketId: '',
+	receiverSocketId: '',
 	callEnded: false,
 	gettingCall: false,
+	callAccepted: false,
 	name: '',
 	picture: '',
 	signal: '',
@@ -26,23 +28,24 @@ const callData = {
 export default function Home() {
 	const dispatch = useDispatch();
 	const { user } = useSelector((state) => state.user);
-	const { activeConversation } = useSelector((state) => state.chat);
+	const { activeConversation,messages } = useSelector((state) => state.chat);
 	const socket = useContext(SocketContext);
 	const [onlineUsers, setOnlineUsers] = useState([]);
 	const [typing, setTyping] = useState(null);
 	const [showSidebar, setShowSidebar] = useState(true); // Initially show the sidebar
 	const [isSmallScreen, setIsSmallScreen] = useState(false);
-
-	const [stream, setStream] = useState();
-	const [callAccepted, setCallAccepted] = useState(false);
-	//---------
+	const [totalSecInCall, setTotalSecInCall] = useState(0);
 	const [call, setCall] = useState(callData);
-	const {  socketId } = call;
+	const [togglePictureInPic, setTogglePictureInPic] = useState(false);
+	const [stream, setStream] = useState();
+	const [callKey, setCallKey] = useState(0);
+	const { callAccepted } = call;
+	//---------
+
 	const [show, setShow] = useState(false);
 	const myVideo = useRef();
 	const userVideo = useRef();
 	const connectionRef = useRef();
-	const [callEndedTrigger, setCallEndedTrigger] = useState(false);
 
 	//------------join user into the socket.io--------------
 
@@ -77,40 +80,30 @@ export default function Home() {
 	}, [stream]);
 
 	useEffect(() => {
-		let mounted = true;
-		if (mounted) {
-			navigator.mediaDevices
-				.getUserMedia({ video: true, audio: true })
-				.then((stream) => {
-					setStream(stream);
-				})
-				.catch((error) => {
-					console.log('Error accessing media devices:', error);
-				});
-		}
-
+		setupMedia();
 		socket.on('setup socket', (id) => {
-			setCall({ ...call, socketId: id });
+			setCall((prev) => ({
+				...prev,
+				ourSocketId: id,
+			}));
 		});
 
 		socket.on('incoming call', (data) => {
 			console.log('dattaaaaaaaaaaaa:::', data);
-			setCall({
-				...call,
+			if (callAccepted) return;
+			setCall((prev) => ({
+				...prev,
 				name: data.name,
 				picture: data.picture,
 				signal: data.signal,
-				socketId: data.from,
+				receiverSocketId: data.from,
 				gettingCall: true,
-			});
-			setShow(true);
+			}));
+			// setShow(true);
 		});
 
 		socket.on('not responded', async () => {
 			console.log('not respondeddddddd');
-			if (connectionRef.current) {
-				connectionRef.current.destroy();
-			}
 
 			if (stream) {
 				// Stop media devices
@@ -119,13 +112,15 @@ export default function Home() {
 			}
 
 			setShow(false);
-			setCall({
-				...call,
+			setCall((prev) => ({
+				...prev,
 				callEnded: false,
 				gettingCall: false,
+				receiverSocketId: '',
 				name: '',
 				picture: '',
-			});
+				signal: '',
+			}));
 		});
 
 		socket.on('call rejected', async () => {
@@ -145,75 +140,109 @@ export default function Home() {
 				...call,
 				callEnded: false,
 				gettingCall: false,
+				receiverSocketId: '',
 				name: '',
 				picture: '',
+				callAccepted: false,
 			});
-			setCallAccepted(false);
+			setCallKey((prevKey) => prevKey + 1);
 		});
 
-		socket.on('end call', () => {
+		socket.on('end call', ({ to }) => {
 			setShow(false);
-			setCall({ ...call, callEnded: true, gettingCall: false, name: '', picture: '' });
+			console.log('clinet end call socket to id :::>>', to);
+			setCall((prev) => ({
+				...prev,
+				callEnded: false,
+				gettingCall: false,
+				receiverSocketId: '',
+				name: '',
+				picture: '',
+				signal: '',
+				ourSocketId: to,
+				callAccepted: false,
+			}));
 
 			if (stream) {
 				// Stop media devices
 				const tracks = stream.getTracks();
 				tracks.forEach((track) => track.stop());
 			}
-			connectionRef.current.destroy();
+			if (connectionRef.current) {
+				// Close the peer connection
+				connectionRef.current.destroy();
 
-			setCallAccepted(false);
+				// Optionally, set the reference to null or perform any cleanup
+				connectionRef.current = null;
+			}
+			// connectionRef.current.destroy();
+			setCallKey((prevKey) => prevKey + 1);
+			console.log('SOCkET ID CLIENT: ', call.ourSocketId);
 		});
 
-		// Cleanup function to stop media devices when component unmounts
-		return () => {
-			mounted = false;
-			if (stream) {
-				stream.getTracks().forEach((track) => track.stop());
-			}
-		};
-	}, [call, socket, connectionRef, stream]);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
+
+	useEffect(() => {
+		console.log('Updated SOCKET ID our CLIENT:>>>>>>>>>>>>>', call.ourSocketId);
+		console.log('Updated SOCKET ID receiver CLIENT:>>>>>>>>>>>>>', call.receiverSocketId);
+		console.log('Updated CALL:>>>>>>>>>>>>>', call);
+	}, [call]);
+
+	const setupMedia = () => {
+		navigator.mediaDevices
+			.getUserMedia({ video: true, audio: true })
+			.then((stream) => {
+				setStream(stream);
+			})
+			.catch((error) => {
+				console.log('Error accessing media devices:', error);
+			});
+	};
 
 	// -------------------calling functions----------------------
 
 	const callUser = async () => {
 		try {
-			const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
-			setStream(stream);
+			myVideo.current.srcObject = stream;
 			setShow(true);
-			setCall({
-				...call,
+			setCall((prev) => ({
+				...prev,
 				name: getConversationName(user, activeConversation.users),
 				picture: getConversationPicture(user, activeConversation.users),
-			});
+				callEnded: false,
+			}));
 			const peer = new Peer({
 				initiator: true,
 				trickle: false,
 				stream: stream,
 			});
-			console.log('socketId::::::::', socketId);
+
 			peer.on('signal', (data) => {
 				socket.emit('call user', {
 					userToCall: getConversationId(user, activeConversation.users),
 					signal: data,
-					from: socketId,
+					from: call.ourSocketId,
 					name: user.name,
 					picture: user.picture,
+					callAccepted: true,
 				});
 			});
 			peer.on('stream', (stream) => {
 				userVideo.current.srcObject = stream;
 			});
-			socket.on('call accepted', (signal) => {
-				setCallAccepted(true);
+			socket.on('call accepted', ({ signal, receiverId }) => {
+				setCall((prev) => ({
+					...prev,
+					betweenACall: true,
+					callAccepted: true,
+					receiverSocketId: receiverId,
+				}));
 				peer.signal(signal);
 			});
 
 			connectionRef.current = peer;
 		} catch (error) {
-			if (connectionRef.current) {
-				connectionRef.current.destroy();
-			}
 			toast.error('Error:', error);
 		}
 	};
@@ -223,14 +252,21 @@ export default function Home() {
 			const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
 			setStream(stream);
 			setShow(true);
-			setCallAccepted(true);
+			if (myVideo && myVideo.current) {
+				myVideo.current.srcObject = stream;
+			}
+			setCall((prev) => ({ ...prev, callAccepted: true }));
 			const peer = new Peer({
 				initiator: false,
 				trickle: false,
 				stream: stream,
 			});
 			peer.on('signal', (data) => {
-				socket.emit('answer call', { signal: data, to: call.socketId });
+				socket.emit('answer call', {
+					signal: data,
+					from: call.ourSocketId,
+					to: call.receiverSocketId,
+				});
 			});
 			peer.on('stream', (stream) => {
 				userVideo.current.srcObject = stream;
@@ -238,46 +274,50 @@ export default function Home() {
 			peer.signal(call.signal);
 			connectionRef.current = peer;
 		} catch (error) {
-			if (connectionRef.current) {
-				connectionRef.current.destroy();
-			}
 			toast.error('Error:', error);
 		}
 	};
+	console.log('userVideo ref:', userVideo.current);
 
 	// -----------------------------------
 	const endCall = () => {
 		setShow(false);
-		setCall({
-			...call,
+		setCall((prev) => ({
+			...prev,
 			callEnded: false,
 			gettingCall: false,
+			receiverSocketId: '',
 			name: '',
 			picture: '',
 			signal: '',
-		});
-		setCallAccepted(false);
+			callAccepted: false,
+		}));
 
-		if (myVideo) {
-			myVideo.current.srcObject = null;
-			console.log('inside end call', call.socketId);
-			socket.emit('end call', call.socketId);
+		// myVideo.current.srcObject = null;
 
+		socket.emit('end call', call.receiverSocketId);
+
+		if (connectionRef.current) {
+			// Close the peer connection
 			connectionRef.current.destroy();
-		}
 
-		setCallEndedTrigger((prevState) => !prevState);
+			// Optionally, set the reference to null or perform any cleanup
+			connectionRef.current = null;
+		}
+		setCallKey((prevKey) => prevKey + 1);
+		// setCallEndedTrigger((prevState) => !prevState);
 	};
 
 	const callNotRespond = () => {
-		console.log('caller side calldata.socketId:', call.socketId);
-		socket.emit('not responded', { to: call.socketId });
+		console.log('caller side calldata.socketId:', call.receiverSocketId);
+		socket.emit('not responded', { to: call.receiverSocketId });
 	};
 
 	const callRejected = () => {
 		setShow(false);
-		setCall({ ...call, gettingCall: false });
-		socket.emit('call rejected', { to: call.socketId });
+		setCall((prev) => ({ ...prev, gettingCall: false, signal: '' }));
+		socket.emit('call rejected', { to: call.receiverSocketId });
+		setCallKey((prevKey) => prevKey + 1);
 	};
 
 	// Toggle audio track function
@@ -311,26 +351,31 @@ export default function Home() {
 			console.log('No active Video stream available');
 		}
 	};
-	useEffect(() => {}, [callEndedTrigger]);
 
 	//--------------------------------------------------------
-
+	console.log('rendered.....');
 	useEffect(() => {
 		//listening to reveived messages
 		socket.on('receive message', (message) => {
 			dispatch(updateMessagesAndConversations(message));
-			console.log("receive an socket event");
+			console.log('receive an socket event');
 			// Check if the received message is from another user
-			// if (
-			// 	activeConversation &&
-			// 	activeConversation.latestMessage &&
-			// 	activeConversation.latestMessage.sender._id !== user._id
-			// ) {
-			// 	socket.emit('messages seen', {
-			// 		convo_id: activeConversation._id,
-			// 		chatUserId: getConversationId(user, activeConversation.users),
-			// 	});
-			// }
+			if (
+				activeConversation &&
+				activeConversation.latestMessage &&
+				activeConversation.latestMessage.sender._id !== user._id
+			) {
+				socket.emit('messages seen', {
+					convo_id: activeConversation._id,
+					chatUserId: getConversationId(user, activeConversation.users),
+				});
+			}
+
+			socket.on('messages seen', ({ convo_id }) => {
+				if (activeConversation && activeConversation._id === convo_id) {
+					dispatch(updateMessageSeen());
+				}
+			});
 		});
 
 		// listening to typing
@@ -348,18 +393,8 @@ export default function Home() {
 			socket.off('typing');
 			socket.off('stop typing');
 		};
-	}, [dispatch, socket]);
+	}, [activeConversation, dispatch, socket,messages, user]);
 
-
-	// useEffect(() => {
-	// 	socket.on('messages seen', ({ convo_id }) => {
-	// 		if (activeConversation && activeConversation._id === convo_id) {
-	// 			dispatch(updateMessageSeen());
-	// 		}
-	// 	});
-
-		// No dependencies in the array, so the effect runs on every render/update
-	// });
 	//--------------get conversations-------------------------
 	useEffect(() => {
 		if (user?.token) {
@@ -377,12 +412,12 @@ export default function Home() {
 
 	const handlePictureInPicture = (state) => {
 		if (userVideo && userVideo.current) {
-			if (state) {
+			if (state === false) {
 				// Request Picture-in-Picture mode
 				userVideo.current.requestPictureInPicture().catch((error) => {
 					console.error('Error entering Picture-in-Picture mode:', error);
 				});
-			} else {
+			} else if (state === true) {
 				// Exit Picture-in-Picture mode
 				document.exitPictureInPicture().catch((error) => {
 					console.error('Error exiting Picture-in-Picture mode:', error);
@@ -390,6 +425,7 @@ export default function Home() {
 			}
 		}
 	};
+
 	useEffect(() => {
 		document.addEventListener('visibilitychange', (event) => {
 			if (document.visibilityState === 'visible') {
@@ -420,23 +456,27 @@ export default function Home() {
 				</div>
 			</div>
 			<Toaster />
-			<div className={show ? '' : 'hidden'}>
+			<div className={show || call.gettingCall ? '' : 'hidden'}>
 				<Call
 					call={call}
 					setCall={setCall}
-					callAccepted={callAccepted}
 					myVideo={myVideo}
 					userVideo={userVideo}
 					stream={stream}
 					answerCall={answerCall}
 					show={show}
 					setShow={setShow}
+					key={callKey}
 					callNotRespond={callNotRespond}
 					toggleAudioTrack={toggleAudioTrack}
 					toggleVideoTrack={toggleVideoTrack}
 					endCall={endCall}
 					handlePictureInPicture={handlePictureInPicture}
 					callRejected={callRejected}
+					totalSecInCall={totalSecInCall}
+					setTotalSecInCall={setTotalSecInCall}
+					togglePictureInPic={togglePictureInPic}
+					setTogglePictureInPic={setTogglePictureInPic}
 				/>
 			</div>
 		</>

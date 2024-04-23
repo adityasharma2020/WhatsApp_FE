@@ -1,18 +1,30 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
-export default function CallTimes({ totalSecInCall, setTotalSecInCall, callAccepted }) {
+export default function CallTimes({ totalSecInCall, setTotalSecInCall, callEnded, callAccepted }) {
+	const timeoutRef = useRef(null);
+
 	useEffect(() => {
 		const setSecInCall = () => {
 			setTotalSecInCall((prev) => prev + 1);
-			setTimeout(setSecInCall, 1000);
+			timeoutRef.current = setTimeout(setSecInCall, 1000);
 		};
-		if (callAccepted) {
+
+		if (callAccepted && !callEnded) {
 			setSecInCall();
 		}
-		return () => setTotalSecInCall(0);
-	}, [callAccepted]);
+
+		return () => {
+			clearTimeout(timeoutRef.current);
+			setTotalSecInCall(0);
+		};
+	}, [callAccepted, callEnded, setTotalSecInCall]);
+
 	return (
-		<div className={`text-dark_text_2 ${totalSecInCall !== 0 ? 'block' : 'hidden'}`}>
+		<div
+			className={`text-dark_text_2 text-sm text-white p-1 bg-white/5 bg-opacity-50 backdrop-blur-lg rounded-lg ${
+				totalSecInCall !== 0 ? 'block' : 'hidden'
+			}`}
+		>
 			{parseInt(totalSecInCall / 3600 >= 0) ? (
 				<>
 					<span>

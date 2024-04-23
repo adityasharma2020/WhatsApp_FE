@@ -8,7 +8,7 @@ import Draggable from 'react-draggable';
 const Call = ({
 	call,
 	setCall,
-	callAccepted,
+	
 	myVideo,
 	stream,
 	userVideo,
@@ -20,13 +20,17 @@ const Call = ({
 	toggleVideoTrack,
 	endCall,
 	handlePictureInPicture,
-	callRejected
+	callRejected,
+	totalSecInCall,
+	setTotalSecInCall,
+	togglePictureInPic,
+	setTogglePictureInPic
 }) => {
 	const [showActions, setShowActions] = useState(false);
-	const { gettingCall, callEnded, name } = call;
+	const { gettingCall, name,callAccepted,callEnded } = call;
 	const [toggleAudio, setToggleAudio] = useState(false);
 	const [toggleVideo, setToggleVideo] = useState(false);
-	const [togglePictureInPic, setTogglePictureInPic] = useState(false);
+	
 
 	return (
 		<div>
@@ -53,7 +57,13 @@ const Call = ({
 							{/* header */}
 							<Header />
 							{/* call area */}
-							<CallArea name={name} />
+							<CallArea
+								name={name}
+								callAccepted={callAccepted}
+								setTotalSecInCall={setTotalSecInCall}
+								totalSecInCall={totalSecInCall}
+								callEnded={callEnded}
+							/>
 							{/* call actions */}
 							{showActions && (
 								<CallActions
@@ -74,32 +84,30 @@ const Call = ({
 						{/*------- VIDEO STREAMS-------- */}
 						<div>
 							{/* user video  */}
-							{callAccepted && !callEnded && (
-								<div>
-									<video
-										ref={userVideo}
-										playsInline
-										muted
-										autoPlay
-										className='largeVideoCall'
-									></video>
-								</div>
-							)}
+
+							<div>
+								<video
+									ref={userVideo}
+									playsInline
+									muted
+									autoPlay
+									className='largeVideoCall'
+								></video>
+							</div>
 
 							{/* my video */}
-							{stream && (
-								<div>
-									<video
-										ref={myVideo}
-										playsInline
-										muted
-										autoPlay
-										className={`smallVideoCall ${
-											showActions ? 'moveVideoCall' : ''
-										}`}
-									></video>
-								</div>
-							)}
+
+							<div>
+								<video
+									ref={myVideo}
+									playsInline
+									muted
+									autoPlay
+									className={`smallVideoCall ${
+										showActions ? 'moveVideoCall' : ''
+									}`}
+								></video>
+							</div>
 						</div>
 					</div>
 				</div>
