@@ -14,7 +14,6 @@ import Peer from 'simple-peer';
 import { getConversationId, getConversationName, getConversationPicture } from '../utils/chat';
 import toast, { Toaster } from 'react-hot-toast';
 
-
 const callData = {
 	ourSocketId: '',
 	receiverSocketId: '',
@@ -41,7 +40,6 @@ export default function Home() {
 	const [stream, setStream] = useState();
 	const [callKey, setCallKey] = useState(0);
 	const { callAccepted } = call;
-
 
 	//---------
 
@@ -125,6 +123,7 @@ export default function Home() {
 		});
 
 		socket.on('call rejected', async () => {
+			window.location.reload(true);
 			if (connectionRef.current) {
 				connectionRef.current.destroy();
 			}
@@ -146,7 +145,6 @@ export default function Home() {
 				callAccepted: false,
 			});
 			setCallKey((prevKey) => prevKey + 1);
-			window.location.reload(true);
 		});
 
 		socket.on('end call', ({ to }) => {
