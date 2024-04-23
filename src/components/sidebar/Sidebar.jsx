@@ -56,15 +56,14 @@ const Sidebar = ({ onlineUsers, typing }) => {
 				{inputValue.length <= 2 && (
 					<Conversations onlineUsers={onlineUsers} typing={typing} />
 				)}
-			</div>
-
-			<div className='absolute bottom-8 right-5'>
-				<button
-					onClick={() => setSearchUserGroup((prev) => !prev)}
-					className='bg-green_1 p-1 rounded-full shadow-md outline-none focus:outline-none focus:ring-4 cursor-pointer ring-green_4'
-				>
-					<NewChatIcon className='fill-white w-10 h-10' />
-				</button>
+				<div className='absolute bottom-8 right-5'>
+					<button
+						onClick={() => setSearchUserGroup((prev) => !prev)}
+						className='bg-green_1 p-1 rounded-full shadow-md outline-none focus:outline-none focus:ring-4 cursor-pointer ring-green_4'
+					>
+						<NewChatIcon className='fill-white w-10 h-10' />
+					</button>
+				</div>
 			</div>
 		</>
 	);
